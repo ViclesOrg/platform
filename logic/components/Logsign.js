@@ -143,10 +143,10 @@ export default class Logsign extends builder.Component {
                 else
                     i.parentNode.className = "v_keepmeSignedin"
             }, false, this.#buildConditionsObject());
-            const fm_welcome = new floatingMessage('assets/welcome_1.jpg', 'Compte créé avec succés', 'Un email de confirmation vous a été envoyé à votre boite mail', 'OK!', (p)=>{
+            const fm_welcome = new floatingMessage('assets/welcome_1.webp', 'Compte créé avec succés', 'Un email de confirmation vous a été envoyé à votre boite mail', 'OK!', (p)=>{
                 p.parentNode.removeChild(p)
             })
-            const fm_oops = new floatingMessage('assets/oops.jpg', 'Agence existe déja', "L'une des données utilisées (email, RC, raison sociale) pour créer le compte est déja utilisée par une autre agence.", 'OK!', (p)=>{
+            const fm_oops = new floatingMessage('assets/oops.webp', 'Agence existe déja', "L'une des données utilisées (email, RC, raison sociale) pour créer le compte est déja utilisée par une autre agence.", 'OK!', (p)=>{
                 p.parentNode.removeChild(p)
             })
             createButton.onclick = ()=>{
@@ -205,7 +205,7 @@ export default class Logsign extends builder.Component {
                     fd.append('email', this.#extractIconedFieldValue(email).toLowerCase())
                     fd.append('password', this.#extractIconedFieldValue(passw))
 
-                    const fm_oops = new floatingMessage('assets/oops.jpg', 'Données erronées', "Email ou mot de passe incorrecte", 'OK!', (p)=>{
+                    const fm_oops = new floatingMessage('assets/oops.webp', 'Données erronées', "Email ou mot de passe incorrecte", 'OK!', (p)=>{
                         p.parentNode.removeChild(p)
                     })
 

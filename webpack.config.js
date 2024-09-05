@@ -14,7 +14,7 @@ module.exports = {
     },
     devServer: {
         static: {
-            directory: path.join(__dirname, 'dist'), // Serve from 'dist' directory
+            directory: path.join(__dirname)
         },
         historyApiFallback: true, // Serve index.html for all routes
         compress: true, // Enable gzip compression
@@ -50,7 +50,7 @@ module.exports = {
                 test: /\.(woff|woff2|eot|ttf|otf)$/i,
                 type: 'asset/resource',
                 generator: {
-                    filename: 'fonts/[name].[contenthash][ext]',
+                    filename: 'front/[name].[contenthash][ext]',
                 },
             },
             {
@@ -75,7 +75,7 @@ module.exports = {
             ],
         }),
         new MiniCssExtractPlugin({
-            filename: 'styles/[name].[contenthash].css',
+            filename: 'front/[name].[contenthash].css',
         }),
         new CleanWebpackPlugin(),
     ],

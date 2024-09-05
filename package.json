@@ -8,7 +8,7 @@
     "start": "node main_server.js",
     "build": "webpack",
     "prod": "webpack --config webpack.prod.js",
-    "dev": "webpack-dev-server",
+    "dev": "webpack serve",
     "release": "tar -czvf release.tar.gz dist prod.js package.json"
   },
   "keywords": [],
@@ -36,6 +36,6 @@
     "sass-loader": "^14.2.1",
     "showdown": "^2.1.0",
     "style-loader": "^4.0.0",
-    "webpack-dev-server": "^4.15.2"
+    "webpack-dev-server": "^5.1.0"
   }
 }
