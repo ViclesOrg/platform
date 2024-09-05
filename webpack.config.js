@@ -14,10 +14,9 @@ module.exports = {
     },
     devServer: {
         static: {
-            directory: path.join(__dirname)
+            directory: path.join(__dirname, 'dist')
         },
         historyApiFallback: true, // Serve index.html for all routes
-        compress: true, // Enable gzip compression
         port: 8080,
     },
     devtool: 'source-map',
@@ -50,14 +49,14 @@ module.exports = {
                 test: /\.(woff|woff2|eot|ttf|otf)$/i,
                 type: 'asset/resource',
                 generator: {
-                    filename: 'front/[name].[contenthash][ext]',
+                    filename: 'front/Remix/[name].[contenthash][ext]',
                 },
             },
             {
-                test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                test: /\.(png|svg|jpg|jpeg|gif|webp)$/i,
                 type: 'asset/resource',
                 generator: {
-                    filename: 'images/[name].[contenthash][ext]',
+                    filename: 'assets/[name].[contenthash][ext]',
                 },
             },
         ],

@@ -4,10 +4,8 @@
   "description": "",
   "main": "entrypoint.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node main_server.js",
-    "build": "webpack",
-    "prod": "webpack --config webpack.prod.js",
+    "start": "node prod.js",
+    "build": "webpack --config webpack.prod.js",
     "dev": "webpack serve",
     "release": "tar -czvf release.tar.gz dist prod.js package.json"
   },
