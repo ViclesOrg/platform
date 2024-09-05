@@ -10,7 +10,6 @@ module.exports = {
     output: {
         filename: 'logic/[name].[contenthash].js',
         path: path.resolve(__dirname, 'dist'),
-        clean: true,
     },
     devServer: {
         static: {
@@ -46,18 +45,18 @@ module.exports = {
                 ],
             },
             {
-                test: /\.(woff|woff2|eot|ttf|otf)$/i,
+                test: /\.(woff(2)?|eot|ttf|otf)$/,
                 type: 'asset/resource',
                 generator: {
-                    filename: 'front/Remix/[name].[contenthash][ext]',
-                },
+                    filename: 'front/[name].[contenthash][ext]',
+                }
             },
             {
                 test: /\.(png|svg|jpg|jpeg|gif|webp)$/i,
                 type: 'asset/resource',
                 generator: {
                     filename: 'assets/[name].[contenthash][ext]',
-                },
+                }
             },
         ],
     },

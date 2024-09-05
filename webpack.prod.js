@@ -41,17 +41,17 @@ module.exports = {
                 ],
             },
             {
-                test: /\.(woff|woff2|eot|ttf|otf)$/i,
+                test: /\.(woff(2)?|eot|ttf|otf)$/,
                 type: 'asset/resource',
                 generator: {
-                    filename: 'fonts/[name].[contenthash][ext]',
-                },
+                    filename: 'front/[name].[contenthash][ext]',
+                }
             },
             {
-                test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                test: /\.(png|svg|jpg|jpeg|gif|webp)$/i,
                 type: 'asset/resource',
                 generator: {
-                    filename: 'images/[name].[contenthash][ext]',
+                    filename: 'assets/[name].[contenthash][ext]',
                 },
             },
         ],
@@ -80,7 +80,7 @@ module.exports = {
             ],
         }),
         new MiniCssExtractPlugin({
-            filename: 'styles/[name].[contenthash].css',
+            filename: 'front/[name].[contenthash].css',
         }),
         new CleanWebpackPlugin(),
     ],
