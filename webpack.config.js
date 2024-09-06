@@ -5,21 +5,22 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-    entry: './logic/entrypoint.js',
+    entry: './public/logic/entrypoint.js',
     mode: 'development',
     output: {
         filename: 'logic/[name].[contenthash].js',
         path: path.resolve(__dirname, 'dist'),
+        publicPath: '/', // Ensures that all assets are served from the root
     },
     devServer: {
         static: {
-            directory: path.join(__dirname, 'dist')
+            directory: path.join(__dirname, 'public'), // Serve static files from 'public'
         },
-        historyApiFallback: true, // Serve index.html for all routes
+        historyApiFallback: true, // Serve index.html for all 404 routes for SPA
+        compress: true,
         port: 8080,
     },
-    devtool: 'source-map',
-
+    devtool: 'source-map', // Suitable for development; consider different options for production
     module: {
         rules: [
             {
@@ -29,10 +30,7 @@ module.exports = {
                     loader: 'babel-loader',
                     options: {
                         presets: [['@babel/preset-env', { targets: 'defaults' }]],
-                        plugins: [
-                            ['@babel/plugin-syntax-import-attributes'],
-                        ],
-                        cacheDirectory: false,
+                        cacheDirectory: true, // Enable caching for faster rebuilds
                     },
                 },
             },
@@ -48,28 +46,27 @@ module.exports = {
                 test: /\.(woff(2)?|eot|ttf|otf)$/,
                 type: 'asset/resource',
                 generator: {
-                    filename: 'front/[name].[contenthash][ext]',
+                    filename: 'front/[name].[contenthash][ext]', // Simplified output path
                 }
             },
             {
                 test: /\.(png|svg|jpg|jpeg|gif|webp)$/i,
                 type: 'asset/resource',
                 generator: {
-                    filename: 'assets/[name].[contenthash][ext]',
+                    filename: 'assets/[name].[contenthash][ext]', // Simplified output path
                 }
             },
         ],
     },
-
     plugins: [
         new HtmlWebpackPlugin({
             title: 'Vicles',
-            filename: 'index.html', // Ensure this is output to 'dist'
+            filename: 'index.html',
             template: 'index.html',
         }),
         new CopyPlugin({
             patterns: [
-                { from: 'assets', to: 'assets' },
+                { from: 'public/assets', to: 'dist/assets' }, // Adjusted path
             ],
         }),
         new MiniCssExtractPlugin({
@@ -77,17 +74,13 @@ module.exports = {
         }),
         new CleanWebpackPlugin(),
     ],
-
     optimization: {
         minimize: true,
         splitChunks: {
             chunks: 'all',
         },
     },
-
-    // performance: {
-    //     hints: 'warning',
-    //     maxEntrypointSize: 512000,
-    //     maxAssetSize: 512000,
-    // },
+    performance: {
+        hints: false, // Disable performance hints; adjust if needed
+    },
 };

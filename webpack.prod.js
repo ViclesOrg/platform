@@ -7,13 +7,13 @@ const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
-    entry: './logic/entrypoint.js',
+    entry: './public/logic/entrypoint.js',
     mode: 'production',
     output: {
         filename: 'logic/[name].[contenthash].js',
         path: path.resolve(__dirname, 'dist'),
-        clean: true,
-        publicPath: '/',
+        publicPath: '/', // Ensures assets are served from the root
+        clean: true, // Clean the output directory before emit
     },
     devtool: false, // Disable source maps for production
     module: {
@@ -25,10 +25,7 @@ module.exports = {
                     loader: 'babel-loader',
                     options: {
                         presets: [['@babel/preset-env', { targets: 'defaults' }]],
-                        plugins: [
-                            ['@babel/plugin-syntax-import-attributes'],
-                        ],
-                        cacheDirectory: false,
+                        cacheDirectory: true, // Enable caching for faster rebuilds
                     },
                 },
             },
@@ -44,14 +41,14 @@ module.exports = {
                 test: /\.(woff(2)?|eot|ttf|otf)$/,
                 type: 'asset/resource',
                 generator: {
-                    filename: 'front/[name].[contenthash][ext]',
-                }
+                    filename: 'front/[name].[contenthash][ext]', // Output path for fonts
+                },
             },
             {
                 test: /\.(png|svg|jpg|jpeg|gif|webp)$/i,
                 type: 'asset/resource',
                 generator: {
-                    filename: 'assets/[name].[contenthash][ext]',
+                    filename: 'assets/[name].[contenthash][ext]', // Output path for images
                 },
             },
         ],
@@ -76,7 +73,7 @@ module.exports = {
         }),
         new CopyPlugin({
             patterns: [
-                { from: 'assets', to: 'assets' },
+                { from: 'public/assets', to: 'assets' }, // Adjusted path for production
             ],
         }),
         new MiniCssExtractPlugin({
@@ -85,7 +82,7 @@ module.exports = {
         new CleanWebpackPlugin(),
     ],
     optimization: {
-        minimize: true,
+        minimize: true, // Minify the output
         minimizer: [
             new TerserPlugin({
                 terserOptions: {
@@ -95,16 +92,16 @@ module.exports = {
                 },
                 extractComments: false,
             }),
-            new CssMinimizerPlugin(),
+            new CssMinimizerPlugin(), // Minify CSS
         ],
         splitChunks: {
-            chunks: 'all',
+            chunks: 'all', // Split vendor and app code
         },
-        runtimeChunk: 'single',
+        runtimeChunk: 'single', // Create a single runtime bundle
     },
     performance: {
-        hints: 'warning',
-        maxEntrypointSize: 512000,
-        maxAssetSize: 512000,
+        hints: 'warning', // Display performance hints
+        maxEntrypointSize: 512000, // Maximum entry point size
+        maxAssetSize: 512000, // Maximum asset size
     },
 };
