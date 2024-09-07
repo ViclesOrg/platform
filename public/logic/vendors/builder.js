@@ -687,13 +687,9 @@ export class Component
 			{
 				for (const sub of this.subroutes)
 				{
-					if (sub.path === route)
-						return sub;
-
 					const res = sub.findRoute(routes)
 					if (res)
 						return res
-
 				}
 			}
 		}
