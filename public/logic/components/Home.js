@@ -5,23 +5,24 @@ import Vicles from "./Vicles.js";
 export default class Home extends builder.Component {
     constructor() {
         super();
-        this.path = '/'
         this.create()
     }
 
     create() {
         if (builder.prefs.get('user') === null)
         {
-            const logsing = new Logsign('Login', '', this),
+            const logsing = new Logsign('Login', '/', this),
                 blocks = builder.image(null, 'v_login_image', '/assets/bg2.webp');
             this.addSubroute((new Logsign('Register', '/register')))
+            this.path = logsing.path
             this.component = builder.block(null, "v_home", [blocks, logsing.getHTML()])
         }
         else
         {
-            const vicles = new Vicles();
-            this.component = builder.block(null, "v_home", [vicles.getHTML()])
+            const vicles = new Vicles(this);
+            this.subroutes = vicles.subroutes;
+            this.path = vicles.path
+            this.component = vicles.component
         }
-        // builder.prefs.delete('user')
     }
 }

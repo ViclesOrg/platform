@@ -12,7 +12,7 @@ export default class NotFound extends builder.Component {
             back = builder.button(null, 'v_404_back', 'Retournez à la terre');
 
         back.onclick = ()=>{
-            history.back()
+            builder.router.push('/')
         };
         this.component = builder.block(null, 'v_404_page', [_404, message, back])
     }

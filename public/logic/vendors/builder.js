@@ -1,3 +1,5 @@
+import {buildExternalHelpers} from "@babel/core";
+
 /**
  * @returns HTMLElement
 */
@@ -361,38 +363,6 @@ export function textArea(id, styleClass, hint)
 	return ta;
 }
 
-// export function brdige(endpoint, method, formdata, sucess, err)
-// {
-// 	let xhr = new XMLHttpRequest();
-//
-// 	if (method === "GET")
-// 	{
-// 		let params = "";
-// 		const formDataArray = [];
-// 		formdata.forEach((value, key) => {
-// 			formDataArray.push([key, value]);
-// 		});
-// 		formDataArray.forEach(([key, value], index)=>{
-// 			params+= key + "=" + value
-// 			if (index !== formdata.length - 1)
-// 				params += "&"
-// 		});
-// 		console.log('builder' , params)
-// 		endpoint+="?"+params
-// 	}
-//
-// 	xhr.open(method, api+endpoint);
-// 	xhr.withCredentials = true;
-// 	xhr.onload = function ()
-// 	{
-// 		if (xhr.status === 200 && xhr.readyState === 4)
-// 			sucess(xhr.responseText);
-// 		else
-// 			err(xhr.status);
-// 	}
-// 	xhr.send(formdata);
-// }
-
 export function brdige(endpoint, method, formdata, success, err) {
 	let xhr = new XMLHttpRequest();
 
@@ -667,18 +637,20 @@ export class Component
 	 * @type {string} path
 	 * @type {Component []} subroutes
 	 * @type {Component []} connectedComponents
-	 * @type {Component} parent
+	 * @type {HTMLElement} implementationPoint
 	 */
 	component;
 	path;
 	subroutes;
 	connectedComponents;
+	implementationPoint;
 
-	constructor(parent)
+	constructor()
 	{
 		this.component = null;
 		this.path = null;
 		this.subroutes = [];
+		this.implementationPoint = null
 		this.connectedComponents = []
 	}
 
@@ -702,9 +674,30 @@ export class Component
 		this.create()
 		old.replaceWith(this.component)
 	}
-	muteRerender()
+
+	findRoute(routes)
 	{
-		// The component must be refreshed in a mute state
+		const path = routes[0]
+		if (this.path === path && routes.length === 1)
+			return this
+		else
+		{
+			routes = routes.slice(1)
+			for (const route of routes)
+			{
+				for (const sub of this.subroutes)
+				{
+					if (sub.path === route)
+						return sub;
+
+					const res = sub.findRoute(routes)
+					if (res)
+						return res
+
+				}
+			}
+		}
+		return null
 	}
 
 	/**
@@ -728,13 +721,13 @@ export class Component
 					if (this.subroutes[i].path === route)
 					{
 						this.component.append(this.subroutes[i].getHTML());
-						return this.component;
+						return this.subroutes[i];
 					}
 				})
 				let res = (this.subroutes[i]).hasRoute(routes);
 				if (res){
 					this.component.append(res)
-					return this.component;
+					return this;
 				}
 			}
 			return null
@@ -745,7 +738,7 @@ export class Component
 				if (sub.component.parentNode === this.component)
 					this.component.removeChild(sub.component);
 			})
-			return this.component;
+			return this;
 		}
 		else
 			return null;
@@ -886,7 +879,9 @@ export class router
 	watch()
 	{
 		window.onpopstate = ()=>{
-			this.resolve(this.old) // needs a rerender here to seem as it reloads
+			let paths = this.#purify(this.old.split('/'));
+			const oldRoute = this.#entry.findRoute(paths)
+			oldRoute.component.parentNode.removeChild(oldRoute.component)
 		}
 
 		setInterval(()=>{
@@ -914,24 +909,34 @@ export class router
 	}
 
 
-	/**@param {string} path */
+	/**
+	 * @param {String} path
+	 */
 	resolve(path)
 	{
-		
 		let paths = this.#purify(path.split('/'));
-	
-		let component = this.#entry.hasRoute(paths);
+
+		// let component = this.#entry.hasRoute(paths);
+		const component = this.#entry.findRoute(paths)
+		let parent = app;
+
+		if (component !== null)
+		{
+			if (component.implementationPoint)
+				parent = component.implementationPoint;
+		}
+
 		if (!component)
 		{
 			if (app === this.#entry.component.parentNode)
-				app.removeChild(this.#entry.getHTML())
-			app.append(this.#theDefault.getHTML());
+				app.removeChild(this.#entry.component)
+			app.append(this.#theDefault.component);
 		}
 		else
 		{
 			if (app === this.#theDefault.component.parentNode)
 				app.removeChild(this.#theDefault.component)
-			app.append(component);
+			parent.append(component.component);
 		}
 	}
 

@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
     entry: './public/logic/entrypoint.js',
@@ -11,6 +12,14 @@ module.exports = {
         filename: 'logic/[name].[contenthash].js',
         path: path.resolve(__dirname, 'dist'),
         publicPath: '/', // Ensures that all assets are served from the root
+    },
+    resolve: {
+        fallback: {
+            "path": require.resolve("path-browserify"),
+            "assert": require.resolve("assert/"),
+            "fs": false, // fs is not available in the browser
+            "process": require.resolve("process/browser"),
+        },
     },
     devServer: {
         static: {
@@ -73,6 +82,9 @@ module.exports = {
             filename: 'front/[name].[contenthash].css',
         }),
         new CleanWebpackPlugin(),
+        new webpack.ProvidePlugin({
+            process: 'process/browser', // Inject process polyfill
+        }),
     ],
     optimization: {
         minimize: true,

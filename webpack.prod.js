@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
@@ -12,8 +13,16 @@ module.exports = {
     output: {
         filename: 'logic/[name].[contenthash].js',
         path: path.resolve(__dirname, 'dist'),
-        publicPath: '/', // Ensures assets are served from the root
-        clean: true, // Clean the output directory before emit
+        publicPath: '/',
+        clean: true,
+    },
+    resolve: {
+        fallback: {
+            "path": require.resolve("path-browserify"),
+            "assert": require.resolve("assert/"),
+            "fs": false,
+            "process": require.resolve("process/browser"),
+        },
     },
     devtool: false, // Disable source maps for production
     module: {
@@ -25,7 +34,7 @@ module.exports = {
                     loader: 'babel-loader',
                     options: {
                         presets: [['@babel/preset-env', { targets: 'defaults' }]],
-                        cacheDirectory: true, // Enable caching for faster rebuilds
+                        cacheDirectory: true,
                     },
                 },
             },
@@ -41,14 +50,14 @@ module.exports = {
                 test: /\.(woff(2)?|eot|ttf|otf)$/,
                 type: 'asset/resource',
                 generator: {
-                    filename: 'front/[name].[contenthash][ext]', // Output path for fonts
+                    filename: 'front/[name].[contenthash][ext]',
                 },
             },
             {
                 test: /\.(png|svg|jpg|jpeg|gif|webp)$/i,
                 type: 'asset/resource',
                 generator: {
-                    filename: 'assets/[name].[contenthash][ext]', // Output path for images
+                    filename: 'assets/[name].[contenthash][ext]',
                 },
             },
         ],
@@ -73,16 +82,19 @@ module.exports = {
         }),
         new CopyPlugin({
             patterns: [
-                { from: 'public/assets', to: 'assets' }, // Adjusted path for production
+                { from: 'public/assets', to: 'assets' },
             ],
         }),
         new MiniCssExtractPlugin({
             filename: 'front/[name].[contenthash].css',
         }),
         new CleanWebpackPlugin(),
+        new webpack.ProvidePlugin({
+            process: 'process/browser', // Polyfill for process
+        }),
     ],
     optimization: {
-        minimize: true, // Minify the output
+        minimize: true,
         minimizer: [
             new TerserPlugin({
                 terserOptions: {
@@ -92,16 +104,16 @@ module.exports = {
                 },
                 extractComments: false,
             }),
-            new CssMinimizerPlugin(), // Minify CSS
+            new CssMinimizerPlugin(),
         ],
         splitChunks: {
-            chunks: 'all', // Split vendor and app code
+            chunks: 'all',
         },
-        runtimeChunk: 'single', // Create a single runtime bundle
+        runtimeChunk: 'single',
     },
     performance: {
-        hints: 'warning', // Display performance hints
-        maxEntrypointSize: 512000, // Maximum entry point size
-        maxAssetSize: 512000, // Maximum asset size
+        hints: 'warning',
+        maxEntrypointSize: 512000,
+        maxAssetSize: 512000,
     },
 };
