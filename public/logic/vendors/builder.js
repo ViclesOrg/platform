@@ -881,7 +881,8 @@ export class router
 		window.onpopstate = ()=>{
 			let paths = this.#purify(this.old.split('/'));
 			const oldRoute = this.#entry.findRoute(paths)
-			oldRoute.component.parentNode.removeChild(oldRoute.component)
+			if (oldRoute)
+				oldRoute.component.parentNode.removeChild(oldRoute.component)
 		}
 
 		setInterval(()=>{
