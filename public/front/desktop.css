@@ -7,9 +7,10 @@
     --black60: rgba(0, 0, 0, 0.6);
     --black: #12161F;
     --white: rgb(255, 255, 255);
-    --peach: #FFE4D0;
+    --peach: #fed6b9;
     --offWhite: #f9f9f9;
     --gray: #EFEFEF;
+    --darkGray: #a0a0a0;
     --fullRed: #FF0000;
 }
 
@@ -497,6 +498,8 @@
 {
     grid-area: 1 / 1 / 2 / 9;
     box-shadow: 72px -2px 8px 0;
+    position: relative;
+    z-index: 10;
 }
 
 .v_vicles_navbar
@@ -509,11 +512,74 @@
     grid-template-rows: repeat(12, 1fr);
     grid-column-gap: 0px;
     grid-row-gap: 0px;
+    position: relative;
+    z-index: 10;
+}
+
+.v_vicles_activity_navigation i
+{
+    font-size: 24px;
+    color: var(--darkGray);
+}
+
+.v_vicles_activity_navigation:hover i
+{
+    color: var(--peach);
+}
+
+.v_active_tab i
+{
+    color: var(--main) !important;
+}
+
+.v_vicles_activity_navigation
+{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.v_settings {
+    grid-area: 8 / 1 / 9 / 2;
+}
+
+.v_hist {
+    grid-area: 7 / 1 / 8 / 2;
+}
+
+.v_staff {
+    grid-area: 6 / 1 / 7 / 2;
+}
+
+.v_park {
+    grid-area: 5 / 1 / 6 / 2;
+}
+
+.v_stats {
+    grid-area: 4 / 1 / 5 / 2;
+}
+
+.v_logout {
+    grid-area: 12 / 1 / 13 / 2;
+}
+
+.v_logout:hover i {
+    color: var(--fullRed) !important;
 }
 
 .v_vicles_activity_container
 {
     grid-area: 2 / 2 / 9 / 9;
+    position: relative;
+}
+
+.v_vicles_activity
+{
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--white);
 }
 
 .v_vicles_app

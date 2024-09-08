@@ -849,6 +849,10 @@ export class router
 	 */
 	#entry;
 	/**
+	 * @type {Component}
+	 */
+	#oldCompo;
+	/**
 	 * @type {Component} #theDefault
 	 */
 	#theDefault;
@@ -863,6 +867,7 @@ export class router
 		this.#theDefault = theDefault;
 		this.#entry = entry;
 		this.old = entry.path;
+		this.#oldCompo = null
 		app.append(this.#entry.getHTML())
 	}
 
@@ -875,10 +880,11 @@ export class router
 	watch()
 	{
 		window.onpopstate = ()=>{
-			let paths = this.#purify(this.old.split('/'));
-			const oldRoute = this.#entry.findRoute(paths)
-			if (oldRoute)
-				oldRoute.component.parentNode.removeChild(oldRoute.component)
+			if (this.#oldCompo !== null)
+			{
+				this.#oldCompo.component.parentNode.removeChild(this.#oldCompo.component)
+				this.#oldCompo = null;
+			}
 		}
 
 		setInterval(()=>{
@@ -911,14 +917,20 @@ export class router
 	 */
 	resolve(path)
 	{
+		if (this.#oldCompo !== null)
+		{
+			this.#oldCompo.component.parentNode.removeChild(this.#oldCompo.component)
+			this.#oldCompo = null;
+		}
 		let paths = this.#purify(path.split('/'));
 
-		// let component = this.#entry.hasRoute(paths);
 		const component = this.#entry.findRoute(paths)
 		let parent = app;
 
 		if (component !== null)
 		{
+			if (component !== this.#entry)
+				this.#oldCompo = component
 			if (component.implementationPoint)
 				parent = component.implementationPoint;
 		}
