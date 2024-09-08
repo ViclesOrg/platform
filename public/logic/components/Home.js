@@ -9,6 +9,7 @@ export default class Home extends builder.Component {
     }
 
     create() {
+        // I have to check the validty of the user token, and also check if the user is authenticated or not
         if (builder.prefs.get('user') === null)
         {
             const logsing = new Logsign('Login', '/', this),
