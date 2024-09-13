@@ -2,9 +2,10 @@ import * as builder from '../vendors/builder.js';
 
 export default class Statistics extends builder.Component
 {
-    constructor() {
+    constructor(activity) {
         super();
         this.path = '/'
+        this.implementationPoint = activity
         this.create()
     }
 

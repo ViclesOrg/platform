@@ -10,7 +10,7 @@ module.exports = {
     mode: 'development',
     output: {
         filename: 'logic/[name].[contenthash].js',
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, '/dist'),
         publicPath: '/', // Ensures that all assets are served from the root
     },
     resolve: {
@@ -23,7 +23,7 @@ module.exports = {
     },
     devServer: {
         static: {
-            directory: path.join(__dirname, 'public'), // Serve static files from 'public'
+            directory: path.join(__dirname, '/public'), // Serve static files from 'public'
         },
         historyApiFallback: true, // Serve index.html for all 404 routes for SPA
         compress: true,

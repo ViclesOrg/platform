@@ -144,15 +144,16 @@ export default class Vicles extends builder.Component {
             notifs = builder.button(null, 'v_vicles_notifs', null, '<i class="ri-notification-3-line"></i>'),
             agency_logo = builder.image(null, 'v_vicles_agency_logo', ''),
             header = builder.block(null, 'v_vicles_header', [logo, title, notifs, agency_logo]),
-            stats = new Statistics(),
-            activity = builder.block(null, 'v_vicles_activity_container', [stats.getHTML()]),
+            // stats = new Statistics(),
+            activity = builder.block(null, 'v_vicles_activity_container', []),
             navigation_pilot = this.#activityNavigation(title, activity),
             navbar = builder.block(null, 'v_vicles_navbar', navigation_pilot);
         if (builder.prefs.get('user').logo)
             agency_logo.src = builder.prefs.get('user').logo
         else
-            agency_logo.src = 'assets/tmp_logo.webp'
+            agency_logo.src = '/assets/tmp_logo.webp'
         this.component = builder.block(null, 'v_vicles_app', [header, navbar, activity]);
+        this.addSubroute(new Statistics(activity))
         this.addSubroute(new Parking(activity))
         this.addSubroute(new History(activity))
         this.addSubroute(new Staff(activity))

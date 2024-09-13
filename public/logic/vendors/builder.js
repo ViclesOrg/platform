@@ -644,6 +644,7 @@ export class Component
 	subroutes;
 	connectedComponents;
 	implementationPoint;
+	subrouteOnPath
 
 	constructor()
 	{
@@ -651,6 +652,7 @@ export class Component
 		this.path = null;
 		this.subroutes = [];
 		this.implementationPoint = null
+		this.subrouteOnPath = false
 		this.connectedComponents = []
 	}
 
@@ -676,22 +678,17 @@ export class Component
 		old.replaceWith(this.component)
 	}
 
-	findRoute(routes)
+	findRoute(route)
 	{
-		const path = routes[0]
-		if (this.path === path && routes.length === 1)
+		const path = route
+		if (this.path === path)
 			return this
 		else
 		{
-			routes = routes.slice(1)
-			for (const route of routes)
+			for (const sub of this.subroutes)
 			{
-				for (const sub of this.subroutes)
-				{
-					const res = sub.findRoute(routes)
-					if (res)
-						return res
-				}
+				if (sub.path === path)
+					return sub
 			}
 		}
 		return null
@@ -882,11 +879,12 @@ export class router
 
 	watch()
 	{
-		if (this.#once === 0)
-		{
-			app.append(this.#entry.getHTML())
-			this.#once = 1
-		}
+		// if (this.#once === 0)
+		// {
+		// 	app.append(this.#entry.getHTML())
+		// 	this.#once = 1
+		// }
+		this.resolve('/')
 		window.onpopstate = ()=>{
 			if (this.#oldCompo !== null)
 			{
@@ -923,21 +921,45 @@ export class router
 	/**
 	 * @param {String} path
 	 */
-	resolve(path)
+	resolve(path, mode='default', compo = null)
 	{
-		if (this.#oldCompo !== null)
+		let paths
+		let component
+		let parent
+		if (mode === 'default')
 		{
-			if (this.#oldCompo.component.parentNode)
+			paths = this.#purify(path.split('/'));
+			component = this.#entry.findRoute(paths[0])
+			this.resolve(['/'], 'beta', component)
+			parent = app;
+		} else if (mode === 'alpha'){
+			component=compo
+			paths = path
+			component = component.findRoute(paths[0])
+			parent = app;
+		} else if (mode === 'beta'){
+			component=compo
+			paths = path
+			for(const c of component.subroutes)
+			{
+				if (c.path === paths[0])
+				{
+					component = c
+					return 0
+				}
+			}
+			parent = app;
+		}
+
+		if (this.#oldCompo !== null && component)
+		{
+			if (this.#oldCompo.component.parentNode && this.#oldCompo.subroutes.includes(component.path))
 			{
 				this.#oldCompo.component.parentNode.removeChild(this.#oldCompo.component)
 				this.#oldCompo = null;
 			}
 		}
-		let paths = this.#purify(path.split('/'));
-
-		const component = this.#entry.findRoute(paths)
-		let parent = app;
-
+		
 		if (component !== null)
 		{
 			if (component !== this.#entry)
@@ -946,7 +968,7 @@ export class router
 				parent = component.implementationPoint;
 		}
 
-		if (!component)
+		if (!component && mode !== 'beta')
 		{
 			if (app === this.#entry.component.parentNode)
 				app.removeChild(this.#entry.component)
@@ -957,7 +979,12 @@ export class router
 			if (app === this.#theDefault.component.parentNode)
 				app.removeChild(this.#theDefault.component)
 			parent.append(component.component);
-		}
+			if (paths.length > 1 && mode !== 'beta')
+			{
+				paths = paths.splice(1)
+				this.resolve(paths, 'alpha', component)
+			}
+		}	
 	}
 
 	static push(path)
