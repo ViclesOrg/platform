@@ -7,8 +7,10 @@ import('../front/Remix/remixicon.scss')
 
 builder.entrypoit(()=>{
     let home  = new Home(),
-        _404  = new NotFound(),
-        router = new builder.router(home, _404);
+        _404  = new NotFound();
 
-    router.watch()
+    home.onReady = ()=>{
+        const router = new builder.router(home, _404);
+        router.watch()
+    }
 })

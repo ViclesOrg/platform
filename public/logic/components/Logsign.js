@@ -197,13 +197,14 @@ export default class Logsign extends builder.Component {
                 const target = i.parentNode.getElementsByClassName('v_fieldIcon_R')[0];
                 target.className = target.className.replace('red', 'invisible')
             }, false, this.#buildConditionsObject());
-            connecetButton.onclick = ()=>{
+            connecetButton.onclick = async ()=>{
                 if (validator.validate())
                 {
                     let fd = new FormData();
 
                     fd.append('email', this.#extractIconedFieldValue(email).toLowerCase())
                     fd.append('password', this.#extractIconedFieldValue(passw))
+                    fd.append('fingerprint', await builder.Fingerprint())
 
                     const fm_oops = new floatingMessage('/assets/oops.webp', 'Données erronées', "Email ou mot de passe incorrecte", 'OK!', (p)=>{
                         p.parentNode.removeChild(p)
@@ -217,7 +218,6 @@ export default class Logsign extends builder.Component {
                         {
                             builder.prefs.add('user', JSON.stringify(res))
                             this.parent.rerender()
-
                         }
                     },()=>{})
                 }

@@ -80,39 +80,54 @@ export default class Vicles extends builder.Component {
 
         this.#stateChecker(stats, parking, staff, history, settings, title)
         stats.onclick = ()=>{
-            builder.router.push('/')
-            stats.className += ' v_active_tab'
-            this.active_tab.classList.remove('v_active_tab')
-            this.active_tab = stats
-            title.textContent = 'Statistiques'
+            if (this.active_tab !== stats)
+            {
+                builder.router.push('/')
+                stats.className += ' v_active_tab'
+                this.active_tab.classList.remove('v_active_tab')
+                this.active_tab = stats
+                title.textContent = 'Statistiques'
+            }
         }
         parking.onclick = ()=>{
-            builder.router.push('/parking')
-            parking.className += ' v_active_tab'
-            this.active_tab.classList.remove('v_active_tab')
-            this.active_tab = parking
-            title.textContent = 'Parking'
+            if (this.active_tab !== parking)
+            {
+                builder.router.push('/parking')
+                parking.className += ' v_active_tab'
+                this.active_tab.classList.remove('v_active_tab')
+                this.active_tab = parking
+                title.textContent = 'Parking'
+            }
         }
         staff.onclick = ()=>{
-            builder.router.push('/staff')
-            staff.className += ' v_active_tab'
-            this.active_tab.classList.remove('v_active_tab')
-            this.active_tab = staff
-            title.textContent = 'Personnel'
+            if (this.active_tab !== staff)
+            {
+                builder.router.push('/staff')
+                staff.className += ' v_active_tab'
+                this.active_tab.classList.remove('v_active_tab')
+                this.active_tab = staff
+                title.textContent = 'Personnel'
+            }
         }
         history.onclick = ()=>{
-            builder.router.push('/history')
-            history.className += ' v_active_tab'
-            this.active_tab.classList.remove('v_active_tab')
-            this.active_tab = history
-            title.textContent = 'Historique'
+            if (this.active_tab !== history)
+            {
+                builder.router.push('/history')
+                history.className += ' v_active_tab'
+                this.active_tab.classList.remove('v_active_tab')
+                this.active_tab = history
+                title.textContent = 'Historique'
+            }
         }
         settings.onclick = ()=>{
-            builder.router.push('/settings')
-            settings.className += ' v_active_tab'
-            this.active_tab.classList.remove('v_active_tab')
-            this.active_tab = settings
-            title.textContent = 'Paramètres'
+            if (this.active_tab !== settings)
+            {
+                builder.router.push('/settings')
+                settings.className += ' v_active_tab'
+                this.active_tab.classList.remove('v_active_tab')
+                this.active_tab = settings
+                title.textContent = 'Paramètres'
+            }
         }
         logout.onclick = ()=>{
             builder.prefs.delete('user')
@@ -126,7 +141,7 @@ export default class Vicles extends builder.Component {
     create() {
         const logo = builder.heading(1, 'v_vicles_logo', "Vicles"),
             title = builder.label('v_vicles_title', ''),
-            notifs = builder.button(null, 'v_vicles_activity_navigation v_vicles_notifs', null, '<i class="ri-notification-3-line"></i>'),
+            notifs = builder.button(null, 'v_vicles_notifs', null, '<i class="ri-notification-3-line"></i>'),
             agency_logo = builder.image(null, 'v_vicles_agency_logo', ''),
             header = builder.block(null, 'v_vicles_header', [logo, title, notifs, agency_logo]),
             stats = new Statistics(),
