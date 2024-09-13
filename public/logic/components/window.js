@@ -1,8 +1,6 @@
 import * as builder from '../vendors/builder.js';
-import IconedButton from './IconedButton.js';
-import IconField from './IconField.js';
 
-export default class window extends builder.Component
+export default class _window extends builder.Component
 {
 	#title
 	#icon
@@ -15,6 +13,7 @@ export default class window extends builder.Component
 		this.#title = title
 		this.#styleClass = windowStyle
 		this.create()
+		
 	}
 
 	create()
@@ -24,10 +23,19 @@ export default class window extends builder.Component
 			close = builder.button(null, 'v_vicles_window_close', null, '<i class="ri-close-circle-line"></i>'),
 			topbar = builder.block(null, 'v_vicles_window_titlebar', [icon, title, close]),
 			zone = builder.block(null, 'v_vicles_window_zone', []),
-			window = builder.block(null, 'v_vicles_window', [topbar, zone]),
+			window = builder.block(null, 'v_vicles_window ' + this.#styleClass, [topbar, zone]),
 			background = builder.block(null, 'v_vicles_window_background', []);
-
+		
+			
 		this.appZone = zone
-		this.component = builder.block(null, 'v_vicles_window_platform ' + this.#styleClass, [background, window]);
+		this.component = builder.block(null, 'v_vicles_window_platform', [background, window]);
+
+		background.onclick = ()=>{
+			history.back()
+		}
+
+		close.onclick = ()=>{
+			history.back()
+		}
 	}
 }

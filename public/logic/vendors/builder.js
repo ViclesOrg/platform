@@ -940,14 +940,19 @@ export class router
 		} else if (mode === 'beta'){
 			component=compo
 			paths = path
+			let found = null;
 			for(const c of component.subroutes)
 			{
 				if (c.path === paths[0])
 				{
-					component = c
-					return 0
+					found = c
+					break
 				}
 			}
+			if (found !== null)
+				component = found
+			else
+				return 0
 			parent = app;
 		}
 

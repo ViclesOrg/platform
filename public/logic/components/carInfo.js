@@ -1,7 +1,7 @@
 import * as builder from '../vendors/builder.js';
 import IconedButton from './IconedButton.js';
 import IconField from './IconField.js';
-import window from './Window.js';
+import _window from './Window.js';
 
 export default class carInfo extends builder.Component
 {
@@ -20,7 +20,8 @@ export default class carInfo extends builder.Component
 
 	create()
 	{
-		let win = new window('<i class="ri-add-large-line"></i>', 'Ajouter une voiture');
+		let win = new _window('<i class="ri-add-large-line"></i>', 'Ajouter une voiture', 'v_vicles_carInfo');
+		
 		this.component = win.getHTML();
 	}
 }
