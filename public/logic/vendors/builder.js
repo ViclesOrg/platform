@@ -757,6 +757,7 @@ export class Dropdown extends Component
 	static CLOSE = 0
 
 	constructor(id=null, styleClass, dropIcon = null, Items=[], adapterCallback=null) {
+		super();
 		if (styleClass === null)
 		{
 			console.error('styleClass attribute must be defined.');
@@ -777,7 +778,6 @@ export class Dropdown extends Component
 			return undefined;
 		}
 
-		super();
 		this.#id = id;
 		this.#styleClass = styleClass;
 		this.#value = Items[0].value;

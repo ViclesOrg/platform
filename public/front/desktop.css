@@ -810,7 +810,7 @@
 {
     display: grid;
     grid-template-columns: 64px repeat(6, 1fr) 64px;
-    grid-template-rows: 48px;
+    grid-template-rows: 64px;
     grid-column-gap: 0px;
     grid-row-gap: 0px;
 }
@@ -818,7 +818,7 @@
 .v_vicles_window_icon i
 {
     font-size: 26px;
-    color: var(--main);
+    color: var(--black);
 }
 
 .v_vicles_window_icon
@@ -827,7 +827,10 @@
     align-self: center;
     justify-self: center;
     border: none;
-    background-color: transparent;
+    background-color: var(--peach);
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
 }
 
 .v_vicles_window_title
@@ -860,8 +863,22 @@
 
 .v_vicles_carInfo
 {
-    width: 50vw;
-    height: 50vh;
-    background-color: var(--back);
+    width: 70vw;
+    height: 80vh;
+    background-color: var(--white);
     border-radius: 24px;
+}
+
+.v_vicles_carInfo .v_vicles_window_zone{
+    display: flex;
+    flex-direction: row;
+}
+.v_vicles_carInfo_left
+{
+    flex-grow: 1;
+}
+
+.v_vicles_carInfo_right
+{
+    flex-grow: 1;
 }
