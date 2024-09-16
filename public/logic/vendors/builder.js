@@ -674,8 +674,8 @@ export class Component
 	{
 		let old = this.component
 		this.create()
-		old.parentNode.removeChild(old)
-		old.replaceWith(this.component)
+		old.parentNode.replaceChild(this.component, old)
+		// old.replaceWith(this.component)
 	}
 
 	findRoute(route)
@@ -752,7 +752,9 @@ export class Dropdown extends Component
 	#state;
 	#value;
 	#htmlItems;
+	#Items
 	#currentValue;
+	#adapter
 	static OPEN = 1
 	static CLOSE = 0
 
@@ -784,7 +786,9 @@ export class Dropdown extends Component
 		this.#htmlItems = []
 		this.#state = Dropdown.CLOSE
 		this.#icon = dropIcon
-		Items.forEach(item=>{
+		this.#Items = Items
+		this.#adapter = adapterCallback
+		this.#Items.forEach(item=>{
 			this.#htmlItems.push(adapterCallback(item))
 		})
 		this.create()
@@ -803,6 +807,20 @@ export class Dropdown extends Component
 			this.#currentValue.replaceChildren(item.cloneNode(true))
 		}
 	}
+
+	updateItems(items = [])
+	{
+		if (items.length > 0)
+		{
+			this.#Items = items
+			this.#htmlItems = []
+			this.#Items.forEach(item=>{
+				this.#htmlItems.push(this.#adapter(item))
+			})
+			this.rerender()
+		}
+	}
+
 	// Here I have to check if the cookie is set to a lang other than the default
 	// then implement the adapterCallback to create list of items from [Items]
 	create() {
@@ -832,7 +850,7 @@ export class Dropdown extends Component
 			item.onclick = ()=>{
 				currentItem.replaceChildren(item.cloneNode(true))
 				selectedItem.click()
-				riseEvent(this, 'onChange', item.getAttribute('itemValue'))
+				riseEvent(this, 'onChange', item.getAttribute('itemValue'), item.textContent)
 			}
 		})
 		currentItem.append(this.#htmlItems[0].cloneNode(true))
