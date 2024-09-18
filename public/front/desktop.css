@@ -941,7 +941,7 @@
     grid-area: 1 / 1 / 2 / 8; 
     justify-self: start;
     align-self: center;
-    text-indent: 12px;
+    margin-left: 8px;
 }
 .b_selectedValue .b_dropIcon { 
     grid-area: 1 / 8 / 2 / 9;

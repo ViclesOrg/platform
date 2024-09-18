@@ -674,7 +674,6 @@ export class Component
 	{
 		let old = this.component
 		this.create()
-		// old.parentNode.replaceChild(this.component, old)
 		old.replaceWith(this.component)
 		old.parentNode.removeChild(old)
 	}
@@ -800,8 +799,6 @@ export class Dropdown extends Component
 		let old = this.component
 		this.create()
 		old.parentNode.replaceChild(this.component, old)
-		// old.replaceWith(this.component)
-		// old.parentNode.removeChild(old)
 	}
 
 	#getValue(value)

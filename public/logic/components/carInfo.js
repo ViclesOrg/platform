@@ -22,9 +22,11 @@ export default class carInfo extends builder.Component
 	{
 		let win = new _window('<i class="ri-add-large-line"></i>', 'Ajouter une voiture', 'v_vicles_carInfo'),	
 			car_brand_model_container = builder.block(null, 'v_vicles_car_brand_model_container', []),
+			plate_number = new IconField('<i class="ri-hashtag"></i>', 'Matricule', 'text', [], 'v_vicles_carInfo_inputs'),
 			model_year = new IconField('<i class="ri-calendar-schedule-line"></i>', 'Année du model', 'number', [], 'v_vicles_carInfo_inputs'),
 			seats = new IconField('<i class="ri-sofa-line"></i>', 'Nombre de places', 'number', [], 'v_vicles_carInfo_inputs'),
 			miles = new IconField('<i class="ri-speed-up-fill"></i>', 'Kilométrage', 'number', [], 'v_vicles_carInfo_inputs'),
+			trunc = new IconField('<i class="ri-luggage-deposit-line"></i>', 'Volume du  coffre', 'number', [], 'v_vicles_carInfo_inputs'),
 			gear = new builder.Dropdown(null, 'v_vicles_fields', '<i class="ri-arrow-drop-down-line"></i>', [{id:'-1', name:'Boite à vitesse'}, {id:'0', name:'Automatique'}, {id:'1', name:'Manuelle'}], (item)=>{
 				let brand = builder.label('v_vicles_dropdown', item.name),
 					container = builder.block(null, 'dropDownItem', [brand]);
@@ -46,11 +48,23 @@ export default class carInfo extends builder.Component
 				return container;
 			}),
 			car_gear_ac_container = builder.block(null, 'v_vicles_car_brand_model_container', [gear.getHTML(), ac.getHTML()]),
-			car_information = builder.block(null, 'v_vicles_carInfo_left', [car_brand_model_container, 
-				model_year.getHTML(), seats.getHTML(), miles.getHTML(), car_gear_ac_container]),
+			fuel = new builder.Dropdown(null, 'v_vicles_fields', '<i class="ri-arrow-drop-down-line"></i>', [{id:'-1', name:'Carburant'}, {id:'0', name:'Diesel'}, {id:'1', name:'Essence'}, {id:'2', name:'Hybride'}, {id:'4', name:'Electrique'}], (item)=>{
+				let brand = builder.label('v_vicles_dropdown', item.name),
+					container = builder.block(null, 'dropDownItem', [brand]);
+
+				if (builder.isArabic(item.text))
+					lang.style.direction = 'rtl';
+
+				container.setAttribute('itemValue', item.id);
+				return container;
+			}),
+			car_fuel_container = builder.block(null, 'v_vicles_car_brand_model_container', [fuel.getHTML()]),
+			car_information = builder.block(null, 'v_vicles_carInfo_left', [car_brand_model_container, plate_number.getHTML(),
+				model_year.getHTML(), seats.getHTML(), miles.getHTML(), trunc.getHTML(), car_gear_ac_container, car_fuel_container]),
 			drop_images = builder.block(null, 'v_vicles_car_drop_images', []),
 			car_images = builder.block(null, 'v_vicles_carInfo_right', [drop_images]),
-			zone = win.appZone;
+			zone = win.appZone,
+			model_id, ac_id, fuel_id, gear_id;
 		
 		builder.brdige('/agency/brands', 'GET', new FormData(), (data)=>{
 			data = JSON.parse(data)
@@ -91,13 +105,26 @@ export default class carInfo extends builder.Component
 				builder.brdige('/agency/models', 'GET', fd, (models)=>{
 					models = JSON.parse(models)
 					car_model.updateItems([{id:'-1', name:'Sélectionner un model'}, ...models])
-					car_model.onChange = (model, modelName)=>{
-						console.log(model, modelName);
+					car_model.onChange = (model)=>{
+						model_id = parseInt(model)
 					}
 				}, ()=>{})
 				
 			}
 		}, ()=>{})
+
+		ac.onChange = (id)=>{
+			ac_id = parseInt(id)
+		}
+
+		gear.onChange = (id)=>{
+			gear_id = parseInt(id)
+		}
+
+		fuel.onChange = (id)=>{
+			fuel_id = parseInt(id)
+		}
+
 		zone.append(car_information, car_images)
 		this.component = win.getHTML();
 	}
