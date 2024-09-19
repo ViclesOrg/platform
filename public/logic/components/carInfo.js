@@ -61,11 +61,43 @@ export default class carInfo extends builder.Component
 			car_fuel_container = builder.block(null, 'v_vicles_car_brand_model_container', [fuel.getHTML()]),
 			car_information = builder.block(null, 'v_vicles_carInfo_left', [car_brand_model_container, plate_number.getHTML(),
 				model_year.getHTML(), seats.getHTML(), miles.getHTML(), trunc.getHTML(), car_gear_ac_container, car_fuel_container]),
-			drop_images = builder.block(null, 'v_vicles_car_drop_images', []),
-			car_images = builder.block(null, 'v_vicles_carInfo_right', [drop_images]),
+			
+				drop_images = builder.block(null, 'v_vicles_car_drop_images', [
+					builder.button(null, 'v_vicles_drop_image_icon', null, '<i class="ri-image-add-line"></i>'),
+					builder.label('v_vicles_drop_image_text', 'Déposez ou cliquez pour télécharger l\'image de couverture', 'v_vicles_drop_image_text')
+				]),
+			fileInput = builder.textBox(null, 'Déposez ou cliquez pour télécharger l\'image de couverture', 'file', 'v_vicles_drop_file_input'),
+
+			car_images = builder.block(null, 'v_vicles_carInfo_right', [drop_images, fileInput]),
 			zone = win.appZone,
 			model_id, ac_id, fuel_id, gear_id;
 		
+			drop_images.addEventListener('click', () => fileInput.click());
+			drop_images.addEventListener('dragover', (e) => {
+				e.preventDefault();
+				drop_images.classList.add('dragover');
+			});
+			drop_images.addEventListener('dragleave', () => {
+				drop_images.classList.remove('dragover');
+			});
+			drop_images.addEventListener('drop', (e) => {
+				e.preventDefault();
+				drop_images.classList.remove('dragover');
+				handleFile(e.dataTransfer.files[0]);
+			});
+			fileInput.addEventListener('change', (e) => {
+				handleFile(e.target.files[0]);
+			});
+
+			function handleFile(file) {
+				if (file && file.type.startsWith('image/')) {
+					const reader = new FileReader();
+					reader.onload = (e) => {
+						drop_images.innerHTML = `<img src="${e.target.result}" alt="Cover image" class="v_vicles_drop_image_cover_image">`;
+					};
+					reader.readAsDataURL(file);
+				}
+			}
 		builder.brdige('/agency/brands', 'GET', new FormData(), (data)=>{
 			data = JSON.parse(data)
 			
