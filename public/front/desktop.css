@@ -990,6 +990,43 @@
     overflow: hidden;
 }
 
+.v_vicles_car_scrollable_images
+{
+    grid-area: 4 / 1 / 6 / 2;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 16px;
+    grid-row-gap: 0px;
+    width: 80%;
+    justify-self: center;
+    overflow-x: scroll;
+}
+
+.v_vicles_car_small_images
+{
+    width: 200px;
+    height: 200px;
+    border-radius: 16px;
+    background-color: var(--gray);
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.v_vicles_car_small_miniature
+{
+    width: 196px;
+    height: 196px;
+    border-radius: 16px;
+    border-width: 2px;
+    border-color: var(--black);
+    border-style: dotted;
+    align-self: center;
+}
+
 .v_vicles_drop_image_cover_image {
     width: 100%;
     height: 100%;
@@ -1024,4 +1061,44 @@
     align-self: center;
     justify-self: center;
     text-align: center;
+}
+
+.v_vicles_carInfo_buttons
+{
+    grid-area: 6 / 1 / 7 / 2;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 16px;
+    grid-row-gap: 0px;
+    width: 80%;
+    justify-self: center;
+}
+
+.v_small_button_main
+{
+    grid-area: 1 / 8 / 2 / 9;
+    font-family: 'poppins', sans-serif;
+    padding: 8px;
+    align-self: center;
+    justify-self: center;
+    border: none;
+    color: var(--white);
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: var(--main);
+}
+
+.v_small_button_black
+{
+    grid-area: 1 / 7 / 2 / 8;
+    font-family: 'poppins', sans-serif;
+    padding: 8px;
+    align-self: center;
+    justify-self: center;
+    border: none;
+    color: var(--white);
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: var(--black);
 }

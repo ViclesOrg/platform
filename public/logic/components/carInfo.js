@@ -61,14 +61,19 @@ export default class carInfo extends builder.Component
 			car_fuel_container = builder.block(null, 'v_vicles_car_brand_model_container', [fuel.getHTML()]),
 			car_information = builder.block(null, 'v_vicles_carInfo_left', [car_brand_model_container, plate_number.getHTML(),
 				model_year.getHTML(), seats.getHTML(), miles.getHTML(), trunc.getHTML(), car_gear_ac_container, car_fuel_container]),
-			
-				drop_images = builder.block(null, 'v_vicles_car_drop_images', [
+			drop_images = builder.block(null, 'v_vicles_car_drop_images', [
 					builder.button(null, 'v_vicles_drop_image_icon', null, '<i class="ri-image-add-line"></i>'),
 					builder.label('v_vicles_drop_image_text', 'Déposez ou cliquez pour télécharger l\'image de couverture', 'v_vicles_drop_image_text')
-				]),
+			]),
 			fileInput = builder.textBox(null, 'Déposez ou cliquez pour télécharger l\'image de couverture', 'file', 'v_vicles_drop_file_input'),
-
-			car_images = builder.block(null, 'v_vicles_carInfo_right', [drop_images, fileInput]),
+			small_image_drop = builder.block(null, 'v_vicles_car_small_images', [builder.button(null, 'v_vicles_drop_image_icon', null, '<i class="ri-image-add-line"></i>')]),
+			small_image_miniature1 = builder.block(null, 'v_vicles_car_small_miniature', []),
+			small_image_miniature2 = builder.block(null, 'v_vicles_car_small_miniature', []),
+			scrollable_car_images = builder.block(null, 'v_vicles_car_scrollable_images', [small_image_drop, small_image_miniature1, small_image_miniature2]),
+			add_car_button = builder.button(null, 'v_small_button_main', 'Ajouter', null),
+			cancel_add_car_button = builder.button(null, 'v_small_button_black', 'Annuler', null),
+			buttons_container = builder.block(null, 'v_vicles_carInfo_buttons', [add_car_button, cancel_add_car_button]),
+			car_images = builder.block(null, 'v_vicles_carInfo_right', [drop_images, fileInput, scrollable_car_images, buttons_container]),
 			zone = win.appZone,
 			model_id, ac_id, fuel_id, gear_id;
 		
