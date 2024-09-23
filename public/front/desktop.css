@@ -169,6 +169,25 @@
     grid-area: 1 / 1 / 2 / 2;
 }
 
+.v_splash
+{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.v_spalsh_animation
+{
+    animation: blink 1s linear infinite;
+}
+
+@keyframes blink{
+0%{opacity: 0;}
+50%{opacity: .5;}
+100%{opacity: 1;}
+}
 
 .v_langs_menu
 {

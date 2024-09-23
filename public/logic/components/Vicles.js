@@ -71,11 +71,8 @@ export default class Vicles extends builder.Component {
             size = 1;
 
         setInterval(()=>{
-            if (size !== activity.childNodes.length)
-            {
                 this.#stateChecker(stats, parking, staff, history, settings, title)
                 size = activity.childNodes.length
-            }
         }, 60)
 
         this.#stateChecker(stats, parking, staff, history, settings, title)

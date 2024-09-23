@@ -18,6 +18,19 @@ export default class carInfo extends builder.Component
 		this.create()
 	}
 
+
+	#buildConditionsObject()
+    {
+        let conditions = {};
+
+        conditions.plate = (field)=>{
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            return emailRegex.test(field.value.toLowerCase());
+        }
+
+        return conditions
+    }
+
 	create()
 	{
 		let win = new _window('<i class="ri-add-large-line"></i>', 'Ajouter une voiture', 'v_vicles_carInfo'),	
@@ -103,6 +116,24 @@ export default class carInfo extends builder.Component
 					reader.readAsDataURL(file);
 				}
 			}
+		cancel_add_car_button.onclick = ()=>{
+			history.back()
+		}
+		const car_info_validator = new builder.Validator(car_information, (i, t)=>{
+			// i.parentNode.getElementsByClassName('invisible')[0].className.replace('invisible', 'red')
+			const target = i.parentNode.getElementsByClassName('v_fieldIcon_R')[0];
+			target.className = target.className.replace('invisible', 'red')
+		}, (i, t)=>{
+			// i.parentNode.getElementsByClassName('invisible')[0].className.replace('invisible', 'red')
+			const target = i.parentNode.getElementsByClassName('v_fieldIcon_R')[0];
+			target.className = target.className.replace('red', 'invisible')
+		}, false, this.#buildConditionsObject());
+
+		add_car_button.onclick = ()=>{
+			
+			car_info_validator.validate()
+		}
+		
 		builder.brdige('/agency/brands', 'GET', new FormData(), (data)=>{
 			data = JSON.parse(data)
 			
