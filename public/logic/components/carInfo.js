@@ -82,15 +82,38 @@ export default class carInfo extends builder.Component
 			small_image_drop = builder.block(null, 'v_vicles_car_small_images', [builder.button(null, 'v_vicles_drop_image_icon', null, '<i class="ri-image-add-line"></i>')]),
 			small_image_miniature1 = builder.block(null, 'v_vicles_car_small_miniature', []),
 			small_image_miniature2 = builder.block(null, 'v_vicles_car_small_miniature', []),
-			scrollable_car_images = builder.block(null, 'v_vicles_car_scrollable_images', [small_image_drop, small_image_miniature1, small_image_miniature2]),
+			fileInput_small_image = builder.textBox(null, 'Déposez ou cliquez pour télécharger l\'image de couverture', 'file', 'v_vicles_drop_file_input'),
+			scrollable_car_images = builder.block(null, 'v_vicles_car_scrollable_images', [small_image_drop, small_image_miniature1, small_image_miniature2, fileInput_small_image]),
 			add_car_button = builder.button(null, 'v_small_button_main', 'Ajouter', null),
 			cancel_add_car_button = builder.button(null, 'v_small_button_black', 'Annuler', null),
 			buttons_container = builder.block(null, 'v_vicles_carInfo_buttons', [add_car_button, cancel_add_car_button]),
 			car_images = builder.block(null, 'v_vicles_carInfo_right', [drop_images, fileInput, scrollable_car_images, buttons_container]),
 			zone = win.appZone,
-			model_id, ac_id, fuel_id, gear_id;
-		
+			model_id = -1, ac_id = -1, fuel_id = -1, gear_id = -1, small_image_id = 0;
+			
+			fileInput_small_image.setAttribute('multiple', '')
 			drop_images.addEventListener('click', () => fileInput.click());
+			scrollable_car_images.addEventListener('click', () => fileInput_small_image.click());
+			fileInput_small_image.addEventListener('change', (e) => {
+				if (e.target.files.length === 0)
+				{
+					small_image_drop.classList.add('circle_over_danger')
+					return
+				}
+				else
+				{
+					scrollable_car_images.innerHTML = ''
+				}
+				for(const file of e.target.files) 
+				{
+					const reader = new FileReader();
+					reader.onload = (e) => {
+						const image = builder.image(null, 'v_vicles_car_small_miniature', e.target.result)
+						scrollable_car_images.append(image)
+					}
+					reader.readAsDataURL(file);
+				};
+			});
 			drop_images.addEventListener('dragover', (e) => {
 				e.preventDefault();
 				drop_images.classList.add('dragover');
@@ -115,6 +138,8 @@ export default class carInfo extends builder.Component
 					};
 					reader.readAsDataURL(file);
 				}
+				else
+					drop_images.classList.add('circle_over_danger')
 			}
 		cancel_add_car_button.onclick = ()=>{
 			history.back()
@@ -130,8 +155,55 @@ export default class carInfo extends builder.Component
 		}, false, this.#buildConditionsObject());
 
 		add_car_button.onclick = ()=>{
-			
-			car_info_validator.validate()
+			let valid = true;
+			if (small_image_id === -1)
+			{
+				small_image_drop.classList.add('circle_over_danger')
+				valid = false;
+			}
+			else
+				small_image_drop.classList.remove('circle_over_danger')
+			if (fileInput.files.length === 0)
+			{
+				drop_images.classList.add('circle_over_danger')
+				valid = false;
+			}
+			else
+				drop_images.classList.remove('circle_over_danger')
+			if (model_id === -1)
+			{
+				car_brand_model_container.childNodes.forEach(node => {
+					node.classList.add('circle_over_danger');
+				});
+				valid = false;
+			}
+			else
+				car_brand_model_container.childNodes.forEach(node => {
+					node.classList.remove('circle_over_danger');
+				});
+			if (gear_id === -1)
+			{
+				gear.getHTML().classList.add('circle_over_danger')
+				valid = false;
+			}
+			else
+				gear.getHTML().classList.remove('circle_over_danger')
+			if (ac_id === -1)
+			{
+				ac.getHTML().classList.add('circle_over_danger')
+				valid = false;
+			}
+			else
+				ac.getHTML().classList.remove('circle_over_danger')
+			if (fuel_id === -1)
+			{
+				fuel.getHTML().classList.add('circle_over_danger')
+				valid = false;
+			}
+			else
+				fuel.getHTML().classList.remove('circle_over_danger')
+			if (!car_info_validator.validate())
+				valid = false;
 		}
 		
 		builder.brdige('/agency/brands', 'GET', new FormData(), (data)=>{
@@ -159,13 +231,16 @@ export default class carInfo extends builder.Component
 			});
 			
 			car_brand_model_container.append(car_brand.getHTML(), car_model.getHTML())
-			car_model.onChange = (model, modelName)=>{}
+			car_model.onChange = (model, modelName)=>{
+				model_id = parseInt(model)
+			}
 
 			car_brand.onChange = (brand, name)=>{
 				if (brand === '-1')
 				{
 					car_model.updateItems([{id:'-1', name:'Sélectionner un model'}])
 					car_model.onChange = (model, modelName)=>{}
+					model_id = -1
 					return false
 				}
 				const fd = new FormData()

@@ -67,12 +67,10 @@ export default class Vicles extends builder.Component {
             staff = builder.button(null, 'v_vicles_activity_navigation v_staff', null, '<i class="ri-group-3-line"></i>'),
             history = builder.button(null, 'v_vicles_activity_navigation v_hist', null, '<i class="ri-history-fill"></i>'),
             settings = builder.button(null, 'v_vicles_activity_navigation v_settings', null, '<i class="ri-settings-2-line"></i>'),
-            logout = builder.button(null, 'v_vicles_activity_navigation v_logout', null, '<i class="ri-logout-circle-line"></i>'),
-            size = 1;
+            logout = builder.button(null, 'v_vicles_activity_navigation v_logout', null, '<i class="ri-logout-circle-line"></i>');
 
         setInterval(()=>{
                 this.#stateChecker(stats, parking, staff, history, settings, title)
-                size = activity.childNodes.length
         }, 60)
 
         this.#stateChecker(stats, parking, staff, history, settings, title)
