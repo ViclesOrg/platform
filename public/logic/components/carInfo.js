@@ -89,7 +89,7 @@ export default class carInfo extends builder.Component
 			buttons_container = builder.block(null, 'v_vicles_carInfo_buttons', [add_car_button, cancel_add_car_button]),
 			car_images = builder.block(null, 'v_vicles_carInfo_right', [drop_images, fileInput, scrollable_car_images, buttons_container]),
 			zone = win.appZone,
-			model_id = -1, ac_id = -1, fuel_id = -1, gear_id = -1, small_image_id = 0;
+			model_id = -1, ac_id = -1, fuel_id = -1, gear_id = -1, small_image_id = 0, cover = null, images = [];
 			
 			fileInput_small_image.setAttribute('multiple', '')
 			drop_images.addEventListener('click', () => fileInput.click());
@@ -109,6 +109,7 @@ export default class carInfo extends builder.Component
 					const reader = new FileReader();
 					reader.onload = (e) => {
 						const image = builder.image(null, 'v_vicles_car_small_miniature', e.target.result)
+						images.push(image)
 						scrollable_car_images.append(image)
 					}
 					reader.readAsDataURL(file);
@@ -135,6 +136,7 @@ export default class carInfo extends builder.Component
 					const reader = new FileReader();
 					reader.onload = (e) => {
 						drop_images.innerHTML = `<img src="${e.target.result}" alt="Cover image" class="v_vicles_drop_image_cover_image">`;
+						cover = e.target.result
 					};
 					reader.readAsDataURL(file);
 				}
@@ -204,6 +206,24 @@ export default class carInfo extends builder.Component
 				fuel.getHTML().classList.remove('circle_over_danger')
 			if (!car_info_validator.validate())
 				valid = false;
+			if (valid)
+			{
+				const fd = new FormData()
+				fd.append('cover', cover);
+				fd.append('images', JSON.stringify(images));
+				fd.append('model', parseInt(model_id));
+				fd.append('gear', parseInt(gear_id));
+				fd.append('ac', parseInt(ac_id));
+				fd.append('fuel', parseInt(fuel_id));
+				fd.append('miles', parseInt(miles.getValue()));
+				fd.append('trunc', parseInt(trunc.getValue()));
+				fd.append('plate', plate_number.getValue());
+				fd.append('model_year', parseInt(model_year.getValue()));
+				fd.append('seats', parseInt(seats.getValue()));
+				builder.brdige('/agency/addCar', 'POST', fd, (data)=>{
+					console.log(data);
+				}, ()=>{})
+			}
 		}
 		
 		builder.brdige('/agency/brands', 'GET', new FormData(), (data)=>{

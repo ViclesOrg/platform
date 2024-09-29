@@ -8,6 +8,7 @@ export default class IconField extends builder.Component
 	instructions
 	className
 	condition
+	#field
 	constructor(fieldIcon, fieldHint, fieldType, instructions=[], className='', condition= undefined)
 	{
 		super()
@@ -17,6 +18,7 @@ export default class IconField extends builder.Component
 		this.instructions = instructions
 		this.className = className
 		this.concondition = condition
+		this.#field
 		this.create()
 	}
 
@@ -35,7 +37,12 @@ export default class IconField extends builder.Component
 		field.setAttribute("required",'')
 		if (this.condition !== undefined)
 			field.setAttribute("condition", this.condition)
-
+		this.#field = field
 		this.component = container
+	}
+
+	getValue()
+	{
+		return this.#field.value
 	}
 }
