@@ -37,10 +37,11 @@ export default class carInfo extends builder.Component
 			car_brand_model_container = builder.block(null, 'v_vicles_car_brand_model_container', []),
 			plate_number = new IconField('<i class="ri-hashtag"></i>', 'Matricule', 'text', [], 'v_vicles_carInfo_inputs'),
 			model_year = new IconField('<i class="ri-calendar-schedule-line"></i>', 'Année du model', 'number', [], 'v_vicles_carInfo_inputs'),
+			price = new IconField('<i class="ri-money-dollar-circle-line"></i>', 'Prix par jour', 'number', [], 'v_vicles_carInfo_inputs'),
 			seats = new IconField('<i class="ri-sofa-line"></i>', 'Nombre de places', 'number', [], 'v_vicles_carInfo_inputs'),
 			miles = new IconField('<i class="ri-speed-up-fill"></i>', 'Kilométrage', 'number', [], 'v_vicles_carInfo_inputs'),
 			trunc = new IconField('<i class="ri-luggage-deposit-line"></i>', 'Volume du  coffre', 'number', [], 'v_vicles_carInfo_inputs'),
-			gear = new builder.Dropdown(null, 'v_vicles_fields', '<i class="ri-arrow-drop-down-line"></i>', [{id:'-1', name:'Boite à vitesse'}, {id:'0', name:'Automatique'}, {id:'1', name:'Manuelle'}], (item)=>{
+			gear = new builder.Dropdown(null, 'v_vicles_fields', '<i class="ri-arrow-drop-down-line"></i>', [{id:'-1', name:'Boite à vitesse'}, {id:'2', name:'Automatique'}, {id:'1', name:'Manuelle'}], (item)=>{
 				let brand = builder.label('v_vicles_dropdown', item.name),
 					container = builder.block(null, 'dropDownItem', [brand]);
 
@@ -61,7 +62,7 @@ export default class carInfo extends builder.Component
 				return container;
 			}),
 			car_gear_ac_container = builder.block(null, 'v_vicles_car_brand_model_container', [gear.getHTML(), ac.getHTML()]),
-			fuel = new builder.Dropdown(null, 'v_vicles_fields', '<i class="ri-arrow-drop-down-line"></i>', [{id:'-1', name:'Carburant'}, {id:'0', name:'Diesel'}, {id:'1', name:'Essence'}, {id:'2', name:'Hybride'}, {id:'4', name:'Electrique'}], (item)=>{
+			fuel = new builder.Dropdown(null, 'v_vicles_fields', '<i class="ri-arrow-drop-down-line"></i>', [{id:'-1', name:'Carburant'}, {id:'1', name:'Diesel'}, {id:'2', name:'Essence'}, {id:'3', name:'Hybride'}, {id:'4', name:'Electrique'}], (item)=>{
 				let brand = builder.label('v_vicles_dropdown', item.name),
 					container = builder.block(null, 'dropDownItem', [brand]);
 
@@ -73,7 +74,7 @@ export default class carInfo extends builder.Component
 			}),
 			car_fuel_container = builder.block(null, 'v_vicles_car_brand_model_container', [fuel.getHTML()]),
 			car_information = builder.block(null, 'v_vicles_carInfo_left', [car_brand_model_container, plate_number.getHTML(),
-				model_year.getHTML(), seats.getHTML(), miles.getHTML(), trunc.getHTML(), car_gear_ac_container, car_fuel_container]),
+				model_year.getHTML(), price.getHTML(), seats.getHTML(), miles.getHTML(), trunc.getHTML(), car_gear_ac_container, car_fuel_container]),
 			drop_images = builder.block(null, 'v_vicles_car_drop_images', [
 					builder.button(null, 'v_vicles_drop_image_icon', null, '<i class="ri-image-add-line"></i>'),
 					builder.label('v_vicles_drop_image_text', 'Déposez ou cliquez pour télécharger l\'image de couverture', 'v_vicles_drop_image_text')
@@ -102,6 +103,7 @@ export default class carInfo extends builder.Component
 				}
 				else
 				{
+					images = []
 					scrollable_car_images.innerHTML = ''
 				}
 				for(const file of e.target.files) 
@@ -109,7 +111,7 @@ export default class carInfo extends builder.Component
 					const reader = new FileReader();
 					reader.onload = (e) => {
 						const image = builder.image(null, 'v_vicles_car_small_miniature', e.target.result)
-						images.push(image)
+						images.push(e.target.result)
 						scrollable_car_images.append(image)
 					}
 					reader.readAsDataURL(file);
@@ -215,11 +217,13 @@ export default class carInfo extends builder.Component
 				fd.append('gear', parseInt(gear_id));
 				fd.append('ac', parseInt(ac_id));
 				fd.append('fuel', parseInt(fuel_id));
+				fd.append('price', parseFloat(price.getValue()));
 				fd.append('miles', parseInt(miles.getValue()));
 				fd.append('trunc', parseInt(trunc.getValue()));
 				fd.append('plate', plate_number.getValue());
 				fd.append('model_year', parseInt(model_year.getValue()));
 				fd.append('seats', parseInt(seats.getValue()));
+				fd.append('agency', JSON.parse(builder.prefs.get("user")).id);
 				builder.brdige('/agency/addCar', 'POST', fd, (data)=>{
 					console.log(data);
 				}, ()=>{})
