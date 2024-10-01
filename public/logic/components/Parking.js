@@ -2,14 +2,17 @@ import * as builder from '../vendors/builder.js';
 import carInfo from './carInfo.js';
 import IconedButton from './IconedButton.js';
 import IconField from './IconField.js';
+import CarFactory from './carFactory.js';
 
 export default class Parking extends builder.Component
 {
+    #addCar;
     constructor(activity) {
         super();
         this.implementationPoint = activity
-        this.addSubroute(new carInfo('create', activity))
         this.path = '/parking'
+        this.#addCar = new carInfo('create', activity)
+        this.addSubroute(this.#addCar)
         this.create()
     }
 
@@ -21,12 +24,14 @@ export default class Parking extends builder.Component
             add = new IconedButton(null, 'v_parking_main_btn v_parking_pos4', '<i class="ri-add-large-line"></i>', 'Ajouter', ()=>{}),
             toAddCar = builder.toRoute('/parking/add', 'add'),
             buttons_container = builder.block(null, 'v_parking_controls_buttons', [filter.getHTML(), _import.getHTML(), _export.getHTML(), add.getHTML()]),
-            parking_controls = builder.block(null, 'v_parking_controls', [search.getHTML(), buttons_container]);
+            parking_controls = builder.block(null, 'v_parking_controls', [search.getHTML(), buttons_container]),
+            car_factory = new CarFactory();
 
-
+        this.#addCar.connectedComponents.push(car_factory)
         add.getHTML().onclick = ()=>{
             toAddCar.click()
         }
-        this.component = builder.block(null, 'v_vicles_activity', [parking_controls])
+        this.component = builder.block(null, 'v_vicles_activity', [parking_controls, car_factory.getHTML()])
+        
     }
 }

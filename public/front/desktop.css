@@ -13,6 +13,8 @@
     --darkGray: #a0a0a0;
     --fullRed: #FF0000;
     --back: #FAF8F4;
+    --green: #12a712;
+    --yellow: #ffd930;
 }
 
 .v_heading
@@ -783,6 +785,8 @@
     top: 0;
     left: 0;
     background-color: var(--back);
+    display: flex;
+    flex-direction: column;
 }
 
 .v_vicles_app
@@ -808,13 +812,16 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    overflow-y: scroll;
 }
 
 .v_vicles_window_background
 {
     width: 100%;
     height: 100%;
-    position: absolute;
+    position: fixed;
+    top: 0;
+    left: 0;
     z-index: 102;
     background-color: rgba(0, 0, 0, 0.6);
 }
@@ -894,6 +901,7 @@
     grid-template-rows: 1fr;
     grid-column-gap: 0px;
     grid-row-gap: 0px;
+    min-height: calc(100% - 94px);
 }
 .v_vicles_carInfo_left
 {
@@ -1127,3 +1135,150 @@
     background-color: var(--black);
     width: 128px;
 }
+
+.success_toast
+{
+    background-color: var(--green);
+}
+
+.error_toast
+{
+    background-color: var(--fullRed);
+}
+
+.warning_toast
+{
+    background-color: var(--yellow);
+}
+
+.vicles_toast
+{
+    padding: 16px;
+    border-radius: 16px;
+    position: fixed;
+    bottom: 64px;
+    z-index: 100;
+    align-self: center;
+    text-align: center;
+    font-family: 'poppins', sans-serif;
+    font-size: 16px;
+    color: var(--white);
+}
+
+.carFactoryGrid
+{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-auto-rows: minmax(100px, auto);
+    gap: 16px;
+    align-self: center;
+    width: 90vw;
+}
+
+.carFactoryInitial
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100% - 120px);
+}
+
+.empty_message
+{
+    font-family: 'Poppins';
+    font-size: 24px;
+    color: var(--darkGray);
+}
+
+.vicles_car
+{
+    width: 256px;
+    height: 256px;
+    background-color: var(--white);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    justify-self: center;
+}
+
+.vicles_car_toolBar
+{
+    width: 90%;
+    align-self: center;
+    padding: 8px 0 8px 0;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+
+.vicles_car_delete
+{
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.vicles_car_delete:hover i
+{
+    color: var(--fullRed);
+    border: .5px solid var(--fullRed);
+}
+
+.vicles_car_modify
+{
+    grid-area: 1 / 2 / 2 / 3;
+}
+
+.vicles_car_modify:hover i
+{
+    color: var(--green);
+    border: .5px solid var(--green);
+}
+
+.vicles_car_button
+{
+    background-color: transparent;
+    border: none;
+}
+
+.vicles_car_button i
+{
+    font-size: 14px;
+    border-radius: 100%;
+    border: .5px solid var(--black);
+    padding: 4px;
+    cursor: pointer;
+}
+
+.vicles_car_image
+{
+    width: 256px;
+    height: 128px;
+    object-fit: contain;
+    aspect-ratio: initial;
+}
+
+.waitScreen
+{
+    grid-area: 1 / 1 / 2 / 3;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.waitScreen_content {
+    width: 50px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: 
+      radial-gradient(farthest-side,var(--main) 94%,#0000) top/8px 8px no-repeat,
+      conic-gradient(#0000 30%,var(--main));
+    -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 8px),#000 0);
+    animation: l13 1s infinite linear;
+  }
+  @keyframes l13{ 
+    100%{transform: rotate(1turn)}
+  }

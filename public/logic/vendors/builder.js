@@ -675,6 +675,7 @@ export class Component
 		let old = this.component
 		this.create()
 		old.replaceWith(this.component)
+		if (old.parentNode)
 		old.parentNode.removeChild(old)
 	}
 
@@ -880,7 +881,6 @@ export class router
 	 */
 	#theDefault;
 	
-	#once
 	static old;
 
 	/**
@@ -893,7 +893,6 @@ export class router
 		this.#entry = entry;
 		this.old = entry.path;
 		this.#oldCompo = null
-		this.#once = 0
 	}
 
 
@@ -904,14 +903,9 @@ export class router
 
 	watch()
 	{
-		// if (this.#once === 0)
-		// {
-		// 	app.append(this.#entry.getHTML())
-		// 	this.#once = 1
-		// }
 		this.resolve('/')
 		window.onpopstate = ()=>{
-			if (this.#oldCompo !== null)
+			if (this.#oldCompo !== null && this.#oldCompo.component.parentNode !== null)
 			{
 				this.#oldCompo.component.parentNode.removeChild(this.#oldCompo.component)
 				this.#oldCompo = null;
@@ -922,6 +916,11 @@ export class router
 			let newPath = document.location.pathname;
 			if (newPath !== this.old)
 			{
+				if (this.#oldCompo !== null && this.#oldCompo.component.parentNode !== null)
+				{
+					this.#oldCompo.component.parentNode.removeChild(this.#oldCompo.component)
+					this.#oldCompo = null;
+				}
 				this.old = newPath;
 				this.resolve(newPath);
 			}
@@ -937,7 +936,7 @@ export class router
 			const path = paths[i];
 
 			if (path !== '' || i === 0)
-				pure.push('/'+path);
+				pure.push('/' + path);
 		}
 		return pure;
 	}

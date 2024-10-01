@@ -2,6 +2,8 @@ import * as builder from '../vendors/builder.js';
 import IconedButton from './IconedButton.js';
 import IconField from './IconField.js';
 import _window from './Window.js';
+import Toast from './toast.js';
+import waitScreen from './waitScreen.js';
 
 export default class carInfo extends builder.Component
 {
@@ -225,8 +227,27 @@ export default class carInfo extends builder.Component
 				fd.append('seats', parseInt(seats.getValue()));
 				fd.append('agency', JSON.parse(builder.prefs.get("user")).id);
 				builder.brdige('/agency/addCar', 'POST', fd, (data)=>{
-					console.log(data);
+					if (data.hasOwnProperty('code') && data.code === -1)
+					{
+						history.back()
+						this.rerender()
+						const toast = new Toast('Erreur lors de l\'ajout de la voiture', 3000, 'error_toast')
+						toast.show()
+					}
+					else
+					{
+						history.back()
+						this.rerender()
+						const toast = new Toast('Voiture ajoutée avec succès', 3000, 'success_toast')
+						this.connectedComponents[0].rerender()
+						toast.show()
+					}
 				}, ()=>{})
+			}
+			else
+			{
+				const toast = new Toast('Tous les champs sont obligatoires', 3000, 'warning_toast')
+				toast.show()
 			}
 		}
 		
@@ -278,6 +299,8 @@ export default class carInfo extends builder.Component
 				}, ()=>{})
 				
 			}
+			zone.innerHTML = ''
+			zone.append(car_information, car_images)
 		}, ()=>{})
 
 		ac.onChange = (id)=>{
@@ -291,8 +314,7 @@ export default class carInfo extends builder.Component
 		fuel.onChange = (id)=>{
 			fuel_id = parseInt(id)
 		}
-
-		zone.append(car_information, car_images)
+		zone.append((new waitScreen()).getHTML())
 		this.component = win.getHTML();
 	}
 }

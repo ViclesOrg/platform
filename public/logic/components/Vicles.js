@@ -139,7 +139,6 @@ export default class Vicles extends builder.Component {
             notifs = builder.button(null, 'v_vicles_notifs', null, '<i class="ri-notification-3-line"></i>'),
             agency_logo = builder.image(null, 'v_vicles_agency_logo', ''),
             header = builder.block(null, 'v_vicles_header', [logo, title, notifs, agency_logo]),
-            // stats = new Statistics(),
             activity = builder.block(null, 'v_vicles_activity_container', []),
             navigation_pilot = this.#activityNavigation(title, activity),
             navbar = builder.block(null, 'v_vicles_navbar', navigation_pilot);
