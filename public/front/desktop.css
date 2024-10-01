@@ -1201,6 +1201,10 @@
     flex-direction: column;
     align-self: center;
     justify-self: center;
+    overflow: hidden;
+    -webkit-box-shadow: 6px 6px 12px -4px rgba(0,0,0,0.75);
+    -moz-box-shadow: 6px 6px 12px -4px rgba(0,0,0,0.75);
+    box-shadow: 6px 6px 12px -4px rgba(0,0,0,0.75);
 }
 
 .vicles_car_toolBar
@@ -1254,8 +1258,8 @@
 .vicles_car_image
 {
     width: 256px;
-    height: 128px;
-    object-fit: contain;
+    height: 160px;
+    object-fit: cover;
     aspect-ratio: initial;
 }
 
