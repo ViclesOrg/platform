@@ -472,7 +472,9 @@
     text-indent: -4px;
     display: none;
     max-width: 160px;
+    border: 1px solid var(--black15) !important
 }
+
 .v_instructions_list li
 {
     font-family: "Nunito Sans", sans-serif;
@@ -1052,15 +1054,19 @@
     border-color: var(--black);
     border-style: dotted;
     align-self: center;
+    object-position: center;
+    object-fit: cover;
 }
 
 .v_vicles_drop_image_cover_image {
     height: calc(100% - 2px);
-    max-width: calc(100% - 2px);
-    aspect-ratio: initial;
+    width: calc(100% - 2px);
     object-fit: cover;
     object-position: center;
     border-radius: inherit;
+    grid-area: 1 / 1 / 7 / 2;
+    align-self: center;
+    justify-self: center;
 }
 
 .v_vicles_drop_file_input { display: none; }
@@ -1232,6 +1238,57 @@
 .vicles_car_modify
 {
     grid-area: 1 / 2 / 2 / 3;
+}
+
+.vicles_car_brand_model_container
+{
+    width: 90%;
+    height: 32px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: 32px;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    align-self: center;
+}
+
+.vicles_car_brand
+{
+    grid-area: 1 / 1 / 2 / 2;
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--black);
+    margin-right: 4px;
+    align-self: center;
+}
+
+.vicles_car_model
+{
+    grid-area: 1 / 2 / 2 / 3;
+    font-family: 'poppins', sans-serif;
+    font-size: 12px;
+    color: var(--black);
+    align-self: center;
+}
+
+.vicles_car_plate
+{
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    height: 24px;
+    width: 128px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+    color: var(--black);
+    align-self: center;
+    justify-self: center;
+    border-radius: 8px;
+    border: 1px solid var(--black);
 }
 
 .vicles_car_modify:hover i

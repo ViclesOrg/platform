@@ -138,6 +138,53 @@ export class Preferences
 }
 
 export async function Fingerprint() {
+	// Canvas fingerprinting
+	const canvasFingerprint = getCanvasFingerprint();
+  
+	// WebGL fingerprinting
+	const webglFingerprint = getWebGLFingerprint();
+  
+	// System information
+	const systemInfo = [
+	  navigator.userAgent,
+	  [screen.width, screen.height, screen.colorDepth].join('x'),
+	  navigator.language,
+	  Intl.DateTimeFormat().resolvedOptions().timeZone,
+	  navigator.platform,
+	  navigator.hardwareConcurrency,
+	  navigator.deviceMemory,
+	  navigator.maxTouchPoints,
+	];
+  
+	// Browser plugins
+	const plugins = Array.from(navigator.plugins).map(p => p.name).join(',');
+  
+	// Installed fonts (limited detection)
+	const fonts = detectFonts();
+  
+	// Battery status (if available)
+	const batteryInfo = await getBatteryInfo();
+  
+	const fingerprintComponents = [
+	  ...systemInfo,
+	  canvasFingerprint,
+	  webglFingerprint,
+	  plugins,
+	  fonts,
+	  batteryInfo,
+	];
+  
+	const fingerprintString = fingerprintComponents.join('###');
+	const encoder = new TextEncoder();
+	const data = encoder.encode(fingerprintString);
+	const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+	const hashArray = Array.from(new Uint8Array(hashBuffer));
+	const fingerprintHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  
+	return fingerprintHash;
+  }
+  
+  function getCanvasFingerprint() {
 	const canvas = document.createElement('canvas');
 	const ctx = canvas.getContext('2d');
 	ctx.textBaseline = 'top';
@@ -149,42 +196,64 @@ export async function Fingerprint() {
 	ctx.fillText('fingerprint', 2, 15);
 	ctx.fillStyle = 'rgba(102, 204, 0, 0.7)';
 	ctx.fillText('fingerprint', 4, 17);
-	const canvasFingerprint = canvas.toDataURL();
-
-	const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-	const oscillator = audioCtx.createOscillator();
-	oscillator.type = 'triangle';
-	oscillator.frequency.setValueAtTime(10000, audioCtx.currentTime);
-	oscillator.start(0);
-	const analyser = audioCtx.createAnalyser();
-	analyser.fftSize = 2048;
-	oscillator.connect(analyser);
-	const buffer = new Float32Array(analyser.fftSize);
-	analyser.getFloatTimeDomainData(buffer);
-	const audioFingerprint = buffer.join(',');
-
-	const fingerprintComponents = [
-		navigator.userAgent,
-		[screen.width, screen.height, screen.colorDepth].join('x'),
-		navigator.language,
-		Intl.DateTimeFormat().resolvedOptions().timeZone,
-		navigator.platform,
-		navigator.hardwareConcurrency,
-		navigator.deviceMemory,
-		navigator.maxTouchPoints,
-		canvasFingerprint,
-		audioFingerprint,
+	return canvas.toDataURL();
+  }
+  
+  function getWebGLFingerprint() {
+	const canvas = document.createElement('canvas');
+	const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+	if (!gl) return 'WebGL not supported';
+  
+	const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+	return debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : 'WebGL fingerprint not available';
+  }
+  
+  function detectFonts() {
+	const baseFonts = ['monospace', 'sans-serif', 'serif'];
+	const fontList = [
+	  'Arial', 'Helvetica', 'Times New Roman', 'Courier', 'Verdana', 'Georgia', 'Palatino', 'Garamond',
+	  'Bookman', 'Comic Sans MS', 'Trebuchet MS', 'Arial Black', 'Impact'
 	];
-
-	const fingerprintString = fingerprintComponents.join('###');
-	const encoder = new TextEncoder();
-	const data = encoder.encode(fingerprintString);
-	const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-	const hashArray = Array.from(new Uint8Array(hashBuffer));
-	const fingerprintHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-
-	return fingerprintHash;
-}
+  
+	const d = document.createElement('div');
+	d.style.visibility = 'hidden';
+	d.style.position = 'absolute';
+	d.style.top = '-10000px';
+	d.style.left = '-10000px';
+	d.style.fontSize = '12px';
+	d.innerHTML = 'abcdefghijklmnopqrstuvwxyz0123456789';
+	document.body.appendChild(d);
+  
+	const detectedFonts = fontList.filter(font => {
+	  let detected = false;
+	  for (let i = 0; i < baseFonts.length; i++) {
+		d.style.fontFamily = `${font},${baseFonts[i]}`;
+		if (d.offsetWidth !== baseFonts.map(baseFont => {
+		  d.style.fontFamily = baseFont;
+		  return d.offsetWidth;
+		})[i]) {
+		  detected = true;
+		  break;
+		}
+	  }
+	  return detected;
+	});
+  
+	document.body.removeChild(d);
+	return detectedFonts.join(',');
+  }
+  
+  async function getBatteryInfo() {
+	if ('getBattery' in navigator) {
+	  try {
+		const battery = await navigator.getBattery();
+		return `${battery.charging},${battery.level}`;
+	  } catch (e) {
+		return 'Battery API not supported';
+	  }
+	}
+	return 'Battery API not available';
+  }
 
 export let prefs = new Preferences();
 

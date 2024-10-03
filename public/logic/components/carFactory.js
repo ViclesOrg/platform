@@ -18,7 +18,6 @@ export default class CarFactory extends builder.Component
 		{
 			cars.push((new Car(car)).getHTML())
 		}
-		console.log(cars)
 		return cars
 	}
 
@@ -35,7 +34,6 @@ export default class CarFactory extends builder.Component
 
 		builder.brdige("/agency/getAllCars", "GET", fd, (res)=>{
 			res = JSON.parse(res)
-			console.log(res)
 			if  (res.hasOwnProperty('code') && (res.code == 3 || res.code == -1))
 			{
 				this.component.innerHTML = ''

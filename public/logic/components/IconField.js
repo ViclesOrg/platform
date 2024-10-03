@@ -17,7 +17,7 @@ export default class IconField extends builder.Component
 		this.fieldType = fieldType
 		this.instructions = instructions
 		this.className = className
-		this.concondition = condition
+		this.condition = condition
 		this.#field
 		this.create()
 	}
@@ -44,5 +44,15 @@ export default class IconField extends builder.Component
 	getValue()
 	{
 		return this.#field.value
+	}
+
+	setValue(value)
+	{
+		this.#field.value = value
+	}
+
+	getField()
+	{
+		return this.#field
 	}
 }

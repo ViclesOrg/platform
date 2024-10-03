@@ -18,7 +18,10 @@ export default class Car extends builder.Component
 		let remove = builder.button(null, 'vicles_car_button vicles_car_delete', null, '<i class="ri-delete-bin-line"></i>'),
 			modify = builder.button(null, 'vicles_car_button vicles_car_modify', null, '<i class="ri-edit-box-line"></i>'),
 			toolBar = builder.block(null, 'vicles_car_toolBar', [remove, modify]),
-			car_image = builder.image(null, 'vicles_car_image', this.#car.cover)
-		this.component = builder.block(null, 'vicles_car', [toolBar, car_image])
+			car_image = builder.image(null, 'vicles_car_image', this.#car.cover),
+			car_brand_model_container = builder.block(null, 'vicles_car_brand_model_container', [builder.label('vicles_car_brand', this.#car.cbrand), builder.label('vicles_car_model', this.#car.cmodel)]),
+			plate = builder.label('vicles_car_plate', this.#car.plate)
+		
+		this.component = builder.block(null, 'vicles_car', [toolBar, car_image, car_brand_model_container, plate])
 	}
 }

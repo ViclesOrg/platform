@@ -26,9 +26,32 @@ export default class carInfo extends builder.Component
         let conditions = {};
 
         conditions.plate = (field)=>{
-            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            return emailRegex.test(field.value.toLowerCase());
+            const regex = /^\d{1,6}-[A-Za-z]-\d{1,3}$/;
+			console.log(regex.test(field.value));
+            return regex.test(field.value);
         }
+
+		conditions.model_year = (field)=>{
+			return parseInt(field.value) >= 1940 && parseInt(field.value) <= new Date().getFullYear() + 1
+		}
+
+		conditions.price = (field)=>{
+			return parseFloat(field.value) >= 100 && parseFloat(field.value) <= 50000
+		}
+
+		conditions.seats = (field)=>{
+			return parseInt(field.value) >= 1 && parseInt(field.value) <= 10
+		}
+
+		conditions.miles = (field)=>{
+			return parseInt(field.value) >= 0 && parseInt(field.value) <= 1000000
+		}
+
+		conditions.trunc = (field)=>{
+			return parseInt(field.value) >= 5 && parseInt(field.value) <= 1000
+		}
+		
+		
 
         return conditions
     }
@@ -37,12 +60,12 @@ export default class carInfo extends builder.Component
 	{
 		let win = new _window('<i class="ri-add-large-line"></i>', 'Ajouter une voiture', 'v_vicles_carInfo'),	
 			car_brand_model_container = builder.block(null, 'v_vicles_car_brand_model_container', []),
-			plate_number = new IconField('<i class="ri-hashtag"></i>', 'Matricule', 'text', [], 'v_vicles_carInfo_inputs'),
-			model_year = new IconField('<i class="ri-calendar-schedule-line"></i>', 'Année du model', 'number', [], 'v_vicles_carInfo_inputs'),
-			price = new IconField('<i class="ri-money-dollar-circle-line"></i>', 'Prix par jour', 'number', [], 'v_vicles_carInfo_inputs'),
-			seats = new IconField('<i class="ri-sofa-line"></i>', 'Nombre de places', 'number', [], 'v_vicles_carInfo_inputs'),
-			miles = new IconField('<i class="ri-speed-up-fill"></i>', 'Kilométrage', 'number', [], 'v_vicles_carInfo_inputs'),
-			trunc = new IconField('<i class="ri-luggage-deposit-line"></i>', 'Volume du  coffre', 'number', [], 'v_vicles_carInfo_inputs'),
+			plate_number = new IconField('<i class="ri-hashtag"></i>', 'Matricule', 'text', ['Champs obligatoire', 'Format: 12345-A-123'], 'v_vicles_carInfo_inputs', 'plate'),
+			model_year = new IconField('<i class="ri-calendar-schedule-line"></i>', 'Année du model', 'number', ['Champs obligatoire', 'Entre 1940 et ' + (new Date().getFullYear() + 1)], 'v_vicles_carInfo_inputs', 'model_year'),
+			price = new IconField('<i class="ri-money-dollar-circle-line"></i>', 'Prix par jour', 'number', ['Champs obligatoire', 'Entre 100 et 50000'], 'v_vicles_carInfo_inputs', 'price'),
+			seats = new IconField('<i class="ri-sofa-line"></i>', 'Nombre de places', 'number', ['Champs obligatoire', 'Entre entre 1 et 10'], 'v_vicles_carInfo_inputs', 'seats'),
+			miles = new IconField('<i class="ri-speed-up-fill"></i>', 'Kilométrage', 'number', ['Champs obligatoire', 'Entre 0 et 1000000'], 'v_vicles_carInfo_inputs', 'miles'),
+			trunc = new IconField('<i class="ri-luggage-deposit-line"></i>', 'Volume du  coffre', 'number', ['Champs obligatoire', 'Entre 5 et 1000'], 'v_vicles_carInfo_inputs', 'trunc'),
 			gear = new builder.Dropdown(null, 'v_vicles_fields', '<i class="ri-arrow-drop-down-line"></i>', [{id:'-1', name:'Boite à vitesse'}, {id:'2', name:'Automatique'}, {id:'1', name:'Manuelle'}], (item)=>{
 				let brand = builder.label('v_vicles_dropdown', item.name),
 					container = builder.block(null, 'dropDownItem', [brand]);
@@ -94,6 +117,17 @@ export default class carInfo extends builder.Component
 			zone = win.appZone,
 			model_id = -1, ac_id = -1, fuel_id = -1, gear_id = -1, small_image_id = 0, cover = null, images = [];
 			
+			model_year.getField().min = 1940
+			model_year.getField().max = new Date().getFullYear() + 1
+			price.getField().min = 100
+			price.getField().max = 50000
+			seats.getField().min = 1
+			seats.getField().max = 10
+			miles.getField().min = 0
+			miles.getField().max = 1000000
+			trunc.getField().min = 5
+			trunc.getField().max = 1000
+
 			fileInput_small_image.setAttribute('multiple', '')
 			drop_images.addEventListener('click', () => fileInput.click());
 			scrollable_car_images.addEventListener('click', () => fileInput_small_image.click());
@@ -227,11 +261,17 @@ export default class carInfo extends builder.Component
 				fd.append('seats', parseInt(seats.getValue()));
 				fd.append('agency', JSON.parse(builder.prefs.get("user")).id);
 				builder.brdige('/agency/addCar', 'POST', fd, (data)=>{
+					data = JSON.parse(data)
 					if (data.hasOwnProperty('code') && data.code === -1)
 					{
 						history.back()
 						this.rerender()
 						const toast = new Toast('Erreur lors de l\'ajout de la voiture', 3000, 'error_toast')
+						toast.show()
+					}
+					else if (data.hasOwnProperty('code') && data.code === 5)
+					{
+						const toast = new Toast('Matricule déjà utilisé', 3000, 'error_toast')
 						toast.show()
 					}
 					else
