@@ -16,7 +16,7 @@ export default class CarFactory extends builder.Component
 		const cars = []
 		for (const car of data)
 		{
-			cars.push((new Car(car)).getHTML())
+			cars.push((new Car(car, this)).getHTML())
 		}
 		return cars
 	}

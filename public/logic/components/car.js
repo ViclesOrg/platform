@@ -1,16 +1,21 @@
 import * as builder from '../vendors/builder.js';
 import carInfo from './carInfo.js';
+import _window from './Window.js';
+import Toast from './toast.js';
 
 export default class Car extends builder.Component
 {
 	#car;
+	#parent;
 	/**
 	 * @param {Object} car
+	 * @param {builder.Component} parent
 	 */
-	constructor(car)
+	constructor(car, parent)
 	{
 		super()
 		this.#car = car
+		this.#parent = parent
 		this.create()
 	}
 
@@ -28,6 +33,42 @@ export default class Car extends builder.Component
 
 		modify.onclick = ()=>{
 			builder.app.append(car_info.getHTML())
+		}
+
+		remove.onclick = ()=>{
+			const	win = new _window('<i class="ri-delete-bin-line"></i>', 'Supprimez', 'vicles_car_delete_window', 'modal'),
+					message = builder.label('vicles_car_delete_message', "La suppression est irreversible. Êtes-vous sûr?"),
+					approve = builder.button(null, 'vicles_car_approve_delettion', 'Supprimer'),
+					cancel = builder.button(null, 'vicles_car_cancel_delettion', 'Annuler'),
+					actions = builder.block(null, 'vicles_car_deletion_actions_container', [cancel, approve])
+
+			cancel.onclick = ()=>{
+				win.getHTML().parentNode.removeChild(win.getHTML())
+			}
+
+			approve.onclick = ()=>{
+				const fd = new FormData();
+				fd.append('id', this.#car.id)
+
+				builder.brdige("/agency/deleteCar", 'POST', fd, (data)=>{
+					data = JSON.parse(data)
+					if (data.hasOwnProperty("code"))
+					{
+						const toast = new Toast('Voiture n\'a pas été supprimée', 3000, 'error_toast')
+						toast.show()
+					}
+					else
+					{
+						win.getHTML().parentNode.removeChild(win.getHTML())
+						this.#parent.rerender()
+						const toast = new Toast('Voiture est supprimée', 3000, 'success_toast')
+						toast.show()
+					}
+				},(err)=>{})
+			}
+
+			win.appZone.append(message, actions)
+			builder.app.append(win.getHTML())
 		}
 	}
 }
