@@ -27,7 +27,7 @@ export default class Parking extends builder.Component
             parking_controls = builder.block(null, 'v_parking_controls', [search.getHTML(), buttons_container]),
             car_factory = new CarFactory();
 
-        this.#addCar.connectedComponents.push(car_factory)
+        this.#addCar.connectedComponents.car_factory = car_factory
         add.getHTML().onclick = ()=>{
             toAddCar.click()
         }

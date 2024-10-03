@@ -6,14 +6,16 @@ export default class _window extends builder.Component
 	#icon
 	#styleClass
 	appZone
-	constructor(icon, title, windowStyle='')
+	#mode
+	
+	constructor(icon, title, windowStyle='', mode='history')
 	{
 		super()
 		this.#icon = icon
 		this.#title = title
 		this.#styleClass = windowStyle
+		this.#mode = mode
 		this.create()
-		
 	}
 
 	create()
@@ -30,12 +32,25 @@ export default class _window extends builder.Component
 		this.appZone = zone
 		this.component = builder.block(null, 'v_vicles_window_platform', [background, window]);
 
-		background.onclick = ()=>{
-			history.back()
+		if (this.#mode === 'history')
+		{
+			background.onclick = ()=>{
+				history.back()
+			}
+	
+			close.onclick = ()=>{
+				history.back()
+			}
 		}
+		else if (this.#mode === 'modal')
+		{
+			background.onclick = ()=>{
+				builder.app.removeChild(this.component)
+			}
 
-		close.onclick = ()=>{
-			history.back()
+			close.onclick = ()=>{
+				builder.app.removeChild(this.component)
+			}
 		}
 	}
 }

@@ -714,15 +714,17 @@ export class Component
 	connectedComponents;
 	implementationPoint;
 	subrouteOnPath
+	hasQueryParams
 
 	constructor()
 	{
 		this.component = null;
 		this.path = null;
+		this.hasQueryParams = false
 		this.subroutes = [];
 		this.implementationPoint = null
 		this.subrouteOnPath = false
-		this.connectedComponents = []
+		this.connectedComponents = {}
 	}
 
 	/**
@@ -758,6 +760,8 @@ export class Component
 			for (const sub of this.subroutes)
 			{
 				if (sub.path === path)
+					return sub
+				else if (sub.hasQueryParams === true)
 					return sub
 			}
 		}
@@ -868,6 +872,7 @@ export class Dropdown extends Component
 	{
 		let old = this.component
 		this.create()
+		if (old.parentNode)
 		old.parentNode.replaceChild(this.component, old)
 	}
 
@@ -882,6 +887,7 @@ export class Dropdown extends Component
 		if (this.#getValue(value) !== undefined)
 		{
 			this.#currentValue.replaceChildren(item.cloneNode(true))
+			riseEvent(this, 'onChange', item.getAttribute('itemValue'), item.textContent)
 		}
 	}
 
