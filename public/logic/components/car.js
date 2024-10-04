@@ -31,6 +31,7 @@ export default class Car extends builder.Component
 		
 		this.component = builder.block(null, 'vicles_car', [toolBar, car_image, car_brand_model_container, plate])
 
+		car_info.connectedComponents.car_factory = this.#parent
 		modify.onclick = ()=>{
 			builder.app.append(car_info.getHTML())
 		}

@@ -94,7 +94,27 @@ export default class carInfo extends builder.Component
 
 	#editeCar(fd)
 	{
-		console.log(fd);
+		builder.brdige('/agency/updateCar', 'POST', fd, (data)=>{
+			data = JSON.parse(data)
+			if (data.hasOwnProperty('code') && data.code === -1)
+			{
+				this.component.parentNode.removeChild(this.component)
+				const toast = new Toast('Erreur lors de la mise à jours de la voiture', 3000, 'error_toast')
+				toast.show()
+			}
+			else if (data.hasOwnProperty('code') && data.code === 5)
+			{
+				const toast = new Toast('Matricule déjà utilisé', 3000, 'error_toast')
+				toast.show()
+			}
+			else
+			{
+				this.component.parentNode.removeChild(this.component)
+				const toast = new Toast('Voiture mise à jour avec succès', 3000, 'success_toast')
+				toast.show()
+				this.connectedComponents.car_factory.rerender()
+			}
+		}, ()=>{})
 	}
 
 	create()
@@ -253,6 +273,15 @@ export default class carInfo extends builder.Component
 		if (this.#mode === 'edit')
 		{
 			drop_images.innerHTML = `<img src="${this.#car.cover}" alt="Cover image" class="v_vicles_drop_image_cover_image">`;
+			if (this.#car.images.length > 0)
+			{
+				scrollable_car_images.innerHTML = ''
+				for(const link of this.#car.images) 
+				{
+					const image = builder.image(null, 'v_vicles_car_small_miniature', link.link)
+					scrollable_car_images.append(image)
+				};
+			}
 		}
 
 		const car_info_validator = new builder.Validator(car_information, (i, t)=>{
@@ -274,7 +303,7 @@ export default class carInfo extends builder.Component
 			}
 			else
 				small_image_drop.classList.remove('circle_over_danger')
-			if (fileInput.files.length === 0)
+			if (fileInput.files.length === 0 && this.#mode === 'create')
 			{
 				drop_images.classList.add('circle_over_danger')
 				valid = false;
@@ -318,8 +347,8 @@ export default class carInfo extends builder.Component
 			if (valid)
 			{
 				const fd = new FormData()
-				fd.append('cover', cover);
-				fd.append('images', JSON.stringify(images));
+				fd.append('cover', cover === null ? this.#car.cover : cover);
+				fd.append('images', (images.length === 0 && (this.#car !== undefined && this.#car.images.length > 0)) ?  JSON.stringify(this.#car.images) : JSON.stringify(images));
 				fd.append('model', parseInt(model_id));
 				fd.append('gear', parseInt(gear_id));
 				fd.append('ac', parseInt(ac_id));
@@ -331,10 +360,12 @@ export default class carInfo extends builder.Component
 				fd.append('model_year', parseInt(model_year.getValue()));
 				fd.append('seats', parseInt(seats.getValue()));
 				fd.append('agency', JSON.parse(builder.prefs.get("user")).id);
+				if (this.#mode === 'edit')
+					fd.append('id', this.#car.id);
 
 				if (this.#mode === "create")
 					this.#createCar(fd)
-				else if (this.#mode === "eedit")
+				else if (this.#mode === "edit")
 					this.#editeCar(fd)
 			}
 			else
