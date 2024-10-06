@@ -3,11 +3,13 @@ import Car from './car.js';
 import waitScreen from './waitScreen.js';
 
 export default class CarFactory extends builder.Component {
-    constructor() {
+    constructor(parentComponent) {
         super();
         this.currentPage = 1;
-        this.pageSize = 25; // You can adjust this value as needed
+		this.parentComponent = parentComponent;
+        this.pageSize = 25;
         this.totalPages = 1;
+		this.searchTerm = '';
         this.create();
     }
 
@@ -43,7 +45,20 @@ export default class CarFactory extends builder.Component {
         }
     }
 
+	setupSearchListener() {
+        this.parentComponent.addEventListener('search', (event) => {
+            this.handleSearch(event.detail.searchTerm);
+        });
+    }
+
+    handleSearch(searchTerm) {
+        this.searchTerm = searchTerm;
+        this.currentPage = 1; // Reset to first page when searching
+        this.loadCars();
+    }
+
     loadCars() {
+		this.component.className = 'carFactoryInitial';
         let wait_screen = new waitScreen();
         let empty_message = builder.label('empty_message', 'Aucune voiture trouvée dans cette agence');
         let fd = new FormData();
@@ -52,7 +67,8 @@ export default class CarFactory extends builder.Component {
         fd.append('agency', user.id);
         fd.append('page', this.currentPage);
         fd.append('pageSize', this.pageSize);
-
+		fd.append('searchTerm', this.searchTerm);
+		
         this.component.innerHTML = '';
         this.component.appendChild(wait_screen.getHTML());
 
@@ -74,5 +90,6 @@ export default class CarFactory extends builder.Component {
     create() {
         this.component = builder.block(null, 'carFactoryInitial');
         this.loadCars();
+		this.setupSearchListener()
     }
 }
