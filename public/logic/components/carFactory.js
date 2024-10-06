@@ -6,7 +6,7 @@ export default class CarFactory extends builder.Component {
     constructor() {
         super();
         this.currentPage = 1;
-        this.pageSize = 1; // You can adjust this value as needed
+        this.pageSize = 25; // You can adjust this value as needed
         this.totalPages = 1;
         this.create();
     }
