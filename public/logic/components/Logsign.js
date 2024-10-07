@@ -152,6 +152,7 @@ export default class Logsign extends builder.Component {
             createButton.onclick = ()=>{
                 if (validator.validate())
                 {
+                    createButton.disabled = true;
                     let fd = new FormData();
 
                     fd.append('name', this.#extractIconedFieldValue(agencyName))
@@ -169,6 +170,7 @@ export default class Logsign extends builder.Component {
                         }
                         else if (res.code === 1)
                             builder.app.append(fm_oops.getHTML())
+                        createButton.disabled = false;
                     },()=>{})
                 }
             }
@@ -200,6 +202,7 @@ export default class Logsign extends builder.Component {
             connecetButton.onclick = async ()=>{
                 if (validator.validate())
                 {
+                    connecetButton.disabled = true
                     let fd = new FormData();
 
                     fd.append('email', this.#extractIconedFieldValue(email).toLowerCase())
@@ -213,7 +216,10 @@ export default class Logsign extends builder.Component {
                     new builder.brdige('/agency/login', 'GET', fd, (data)=>{
                         const res = JSON.parse(data)
                         if (res.hasOwnProperty('code'))
+                        {
                             builder.app.append(fm_oops.getHTML())
+                            connecetButton.disabled = false
+                        }
                         else
                         {
                             builder.prefs.add('user', JSON.stringify(res))
@@ -228,7 +234,7 @@ export default class Logsign extends builder.Component {
             let prefs = new builder.Preferences();
 
             prefs.add('language', value)
-            this.parent.rerender();
+            // this.parent.rerender();
         }
 
         language.setValue(builder.prefs.get("language"))

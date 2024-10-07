@@ -50,13 +50,14 @@ export default class Car extends builder.Component
 			approve.onclick = ()=>{
 				const fd = new FormData();
 				fd.append('id', this.#car.id)
-
+				approve.disabled = true
 				builder.brdige("/agency/deleteCar", 'POST', fd, (data)=>{
 					data = JSON.parse(data)
 					if (data.hasOwnProperty("code"))
 					{
 						const toast = new Toast('Voiture n\'a pas été supprimée', 3000, 'error_toast')
 						toast.show()
+						approve.disabled = false
 					}
 					else
 					{

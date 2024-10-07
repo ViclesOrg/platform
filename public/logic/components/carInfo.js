@@ -65,10 +65,12 @@ export default class carInfo extends builder.Component
         return conditions
     }
 
-	#createCar(fd)
+	#createCar(fd, btn)
 	{
+		btn.disabled = true;
 		builder.brdige('/agency/addCar', 'POST', fd, (data)=>{
 			data = JSON.parse(data)
+			btn.disabled = false;
 			if (data.hasOwnProperty('code') && data.code === -1)
 			{
 				history.back()
@@ -92,10 +94,12 @@ export default class carInfo extends builder.Component
 		}, ()=>{})
 	}
 
-	#editeCar(fd)
+	#editeCar(fd, btn)
 	{
+		btn.disabled = true;
 		builder.brdige('/agency/updateCar', 'POST', fd, (data)=>{
 			data = JSON.parse(data)
+			btn.disabled = false;
 			if (data.hasOwnProperty('code') && data.code === -1)
 			{
 				this.component.parentNode.removeChild(this.component)
@@ -364,9 +368,9 @@ export default class carInfo extends builder.Component
 					fd.append('id', this.#car.id);
 
 				if (this.#mode === "create")
-					this.#createCar(fd)
+					this.#createCar(fd, add_car_button)
 				else if (this.#mode === "edit")
-					this.#editeCar(fd)
+					this.#editeCar(fd, add_car_button)
 			}
 			else
 			{

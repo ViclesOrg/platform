@@ -61,6 +61,7 @@ export default class CarFactory extends builder.Component {
 		this.component.className = 'carFactoryInitial';
         let wait_screen = new waitScreen();
         let empty_message = builder.label('empty_message', 'Aucune voiture trouvée dans cette agence');
+        let empty_message_search = builder.label('empty_message', 'Aucune voiture trouvée');
         let fd = new FormData();
         
         const user = JSON.parse(builder.prefs.get('user'));
@@ -77,8 +78,11 @@ export default class CarFactory extends builder.Component {
             this.component.innerHTML = '';
 
             if (res.hasOwnProperty('code') && (res.code == 3 || res.code == -1)) {
-                this.component.appendChild(empty_message);
-            } else {
+                if (this.searchTerm === '')
+                    this.component.appendChild(empty_message);
+                else
+                    this.component.appendChild(empty_message_search);
+            }else {
 				this.component.className = 'carFactoryFinal'
                 this.totalPages = res.pagination.totalPages;
                 this.component.append(builder.block(null, "carFactoryGrid", [...this.#factory(res.cars)]));
