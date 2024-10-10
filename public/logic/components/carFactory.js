@@ -32,7 +32,7 @@ export default class CarFactory extends builder.Component {
 		nextButton.onclick = () => {this.component.className = 'carFactoryInitial'; this.changePage(this.currentPage + 1)}
         nextButton.disabled = this.currentPage === this.totalPages;
         
-        const pageInfo = builder.label('page-info', `Page ${this.currentPage} of ${this.totalPages}`);
+        const pageInfo = builder.label('page-info', `Page ${this.currentPage} sur ${this.totalPages}`);
         
         paginationContainer.append(prevButton, pageInfo, nextButton);
         return paginationContainer;
