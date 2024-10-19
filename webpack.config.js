@@ -76,6 +76,7 @@ module.exports = {
         new CopyPlugin({
             patterns: [
                 { from: 'public/assets', to: 'dist/assets' }, // Adjusted path
+                {from:'public/site.webmanifest', to: 'dist/site.webmanifest'}
             ],
         }),
         new MiniCssExtractPlugin({

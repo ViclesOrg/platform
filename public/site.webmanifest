@@ -1,0 +1,30 @@
+{
+	"name": "Vicles - Modern Car Rental Platform",
+	"short_name": "Vicles",
+	"description": "Simplify your car rentals with Vicles. Easy booking, price comparison, digital contracts, and fine management.",
+	"start_url": "/",
+	"display": "standalone",
+	"background_color": "#ffffff",
+	"theme_color": "#FD6F00",
+	"icons": [
+	  {
+		"src": "/assets/favicon.ico",
+		"sizes": "16x16",
+		"type": "image/png"
+	  },
+	  {
+		"src": "/assets/favicon.ico",
+		"sizes": "32x32",
+		"type": "image/png"
+	  },
+	  {
+		"src": "/assets/favicon.ico",
+		"sizes": "48x48",
+		"type": "image/x-icon"
+	  }
+	],
+	"lang": "en-US",
+	"dir": "ltr",
+	"orientation": "any",
+	"categories": ["travel", "car rental", "transportation"]
+  }
