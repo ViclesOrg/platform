@@ -1,30 +1,28 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Righteous&display=swap');
-:root{
-    --main: #FD6F00;
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Righteous&display=swap");
+:root {
+    --main: #fd6f00;
     --lighterMain: #ff9039;
-    --second : #4F7EF9;
+    --second: #4f7ef9;
     --white60: rgba(255, 255, 255, 0.6);
     --black15: rgba(0, 0, 0, 0.15);
     --black60: rgba(0, 0, 0, 0.6);
-    --black: #12161F;
+    --black: #12161f;
     --white: rgb(255, 255, 255);
     --peach: #fed6b9;
     --offWhite: #f9f9f9;
-    --gray: #EFEFEF;
+    --gray: #efefef;
     --darkGray: #a0a0a0;
-    --fullRed: #FF0000;
-    --back: #FAF8F4;
+    --fullRed: #ff0000;
+    --back: #faf8f4;
     --green: #12a712;
     --yellow: #ffd930;
 }
 
-.v_heading
-{
-    font-family: 'Poppins', sans-serif;
+.v_heading {
+    font-family: "Poppins", sans-serif;
 }
 
-.v_login_block_container
-{
+.v_login_block_container {
     grid-area: 2 / 1 / 6 / 2;
     display: grid;
     grid-template-columns: 1fr;
@@ -37,8 +35,7 @@
     width: 100%;
 }
 
-.v_login_block
-{
+.v_login_block {
     grid-area: 3 / 1 / 8 / 2;
     display: grid;
     grid-template-columns: 1fr;
@@ -50,8 +47,7 @@
     align-self: center;
 }
 
-.Signup_block
-{
+.Signup_block {
     grid-area: 4 / 1 / 8 / 2;
     display: grid;
     grid-template-columns: 1fr;
@@ -63,21 +59,18 @@
     align-self: center;
 }
 
-.v_signup_return_container
-{
+.v_signup_return_container {
     grid-area: 1 / 1 / 2 / 2;
     width: 90%;
     align-self: end;
 }
 
-.circle_over_danger
-{
+.circle_over_danger {
     border: 1px solid var(--fullRed);
     border-radius: 4px;
 }
 
-.v_signup_return
-{
+.v_signup_return {
     background-color: transparent;
     font-size: 24px;
     cursor: pointer;
@@ -85,45 +78,39 @@
     justify-self: start;
 }
 
-.v_signup_return i
-{
+.v_signup_return i {
     font-size: 32px;
 }
 
-.v_home_login_container_pos1
-{
+.v_home_login_container_pos1 {
     display: block;
     width: 90%;
     grid-area: 1 / 1 / 2 / 2;
     align-self: end;
 }
 
-.v_home_login_container_pos2
-{
+.v_home_login_container_pos2 {
     display: block;
     width: 90%;
     grid-area: 2 / 1 / 3 / 2;
     align-self: start;
 }
 
-.v_home_signup_container_pos1
-{
+.v_home_signup_container_pos1 {
     display: block;
     width: 90%;
     grid-area: 2 / 1 / 3 / 2;
     align-self: end;
 }
 
-.v_home_signup_container_pos2
-{
+.v_home_signup_container_pos2 {
     display: block;
     width: 90%;
     grid-area: 3 / 1 / 4 / 2;
     align-self: start;
 }
 
-.v_home
-{
+.v_home {
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -131,8 +118,7 @@
     background-color: var(--offWhite);
 }
 
-.v_mutable_panel
-{
+.v_mutable_panel {
     width: 30vw;
     height: 100vh;
     background-color: var(--white);
@@ -147,8 +133,7 @@
     align-items: center;
 }
 
-.v_mutable_panel_register
-{
+.v_mutable_panel_register {
     width: 30vw;
     height: 100vh;
     background-color: var(--white);
@@ -164,16 +149,14 @@
     align-items: center;
 }
 
-.v_logo
-{
-    font-family: 'righteous', cursive;
+.v_logo {
+    font-family: "righteous", cursive;
     font-size: 56px;
     color: var(--main);
     grid-area: 1 / 1 / 2 / 2;
 }
 
-.v_splash
-{
+.v_splash {
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -181,19 +164,23 @@
     align-items: center;
 }
 
-.v_spalsh_animation
-{
+.v_spalsh_animation {
     animation: blink 1s linear infinite;
 }
 
-@keyframes blink{
-0%{opacity: 0;}
-50%{opacity: .5;}
-100%{opacity: 1;}
+@keyframes blink {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
-.v_langs_menu
-{
+.v_langs_menu {
     grid-area: 1 / 4 / 2 / 5;
     justify-self: end;
     background-color: transparent;
@@ -204,14 +191,11 @@
     font-size: 12px;
 }
 
-.dropDownItem
-{
+.dropDownItem {
     cursor: pointer;
 }
 
-
-.v_iconField
-{
+.v_iconField {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     grid-template-rows: 1fr;
@@ -224,13 +208,11 @@
     position: relative;
 }
 
-.v_fieldIcon_L i
-{
+.v_fieldIcon_L i {
     font-size: 18px !important;
 }
 
-.v_fieldIcon_L
-{
+.v_fieldIcon_L {
     border: none;
     background-color: transparent;
     grid-area: 1 / 1 / 2 / 2;
@@ -238,18 +220,15 @@
     justify-self: center;
 }
 
-.v_fieldIcon_R:hover +.v_logsign_instructions
-{
+.v_fieldIcon_R:hover + .v_logsign_instructions {
     display: block;
 }
 
-.v_fieldIcon_R i
-{
+.v_fieldIcon_R i {
     font-size: 18px !important;
 }
 
-.v_fieldIcon_R
-{
+.v_fieldIcon_R {
     border: none;
     font-size: 18px !important;
     background-color: transparent;
@@ -259,18 +238,15 @@
     position: relative;
 }
 
-.invisible
-{
+.invisible {
     visibility: hidden;
 }
 
-.red
-{
+.red {
     color: var(--fullRed);
 }
 
-.v_iconedfield
-{
+.v_iconedfield {
     background-color: transparent;
     font-family: "Nunito Sans", sans-serif;
     border: none;
@@ -278,22 +254,19 @@
     grid-area: 1 / 2 / 2 / 6;
 }
 
-.v_keepmeSignedin
-{
+.v_keepmeSignedin {
     display: flex;
     flex-direction: row;
     align-items: start;
 }
 
-.v_checkbox
-{
+.v_checkbox {
     display: inline;
     margin-right: 8px;
     height: 20px;
 }
 
-.v_default_text
-{
+.v_default_text {
     font-family: "Nunito Sans", sans-serif;
     font-size: 12px;
     display: inline;
@@ -301,34 +274,28 @@
     padding: 2px;
 }
 
-.v_size_0
-{
+.v_size_0 {
     font-size: 12px;
 }
 
-.v_text_align_center
-{
+.v_text_align_center {
     text-align: center;
 }
 
-.v_pointer
-{
+.v_pointer {
     cursor: pointer;
     text-decoration: underline;
 }
 
-.orange
-{
+.orange {
     background-color: var(--main);
 }
 
-.blue
-{
+.blue {
     background-color: var(--second);
 }
 
-.v_medium_button
-{
+.v_medium_button {
     border: none;
     font-family: "Nunito Sans", sans-serif;
     font-size: 16px;
@@ -340,8 +307,7 @@
     align-self: center;
 }
 
-.v_home_or_label
-{
+.v_home_or_label {
     text-align: center;
     justify-content: center;
     align-items: center;
@@ -349,8 +315,7 @@
     font-family: "poppins", sans-serif;
 }
 
-.v_login_head
-{
+.v_login_head {
     grid-area: 1 / 1 / 2 / 2;
     width: 90%;
     height: 70px;
@@ -366,8 +331,7 @@
     z-index: 20;
 }
 
-.v_login_image
-{
+.v_login_image {
     position: absolute;
     right: 0;
     top: 0;
@@ -376,8 +340,7 @@
     aspect-ratio: initial;
 }
 
-.v_home_footer
-{
+.v_home_footer {
     width: 100%;
     grid-area: 6 / 1 / 7 / 2;
     display: grid;
@@ -392,21 +355,19 @@
     z-index: 20;
 }
 
-.v_floatingMessage
-{
+.v_floatingMessage {
     width: 470px;
     height: 470px;
     border-radius: 32px;
     background-color: var(--white);
     position: absolute;
     z-index: 50;
-    top: calc((100vh - 470px)/2);
-    left: calc((100vw - 470px)/2);
+    top: calc((100vh - 470px) / 2);
+    left: calc((100vw - 470px) / 2);
     border: 1px solid var(--black15);
 }
 
-.v_floatingMessage_image
-{
+.v_floatingMessage_image {
     width: 470px;
     aspect-ratio: initial;
     border-radius: 32px 32px 0 0;
@@ -414,8 +375,7 @@
     z-index: 49;
 }
 
-.v_floatingMessage_text_container
-{
+.v_floatingMessage_text_container {
     width: 470px;
     height: 287px;
     background-color: var(--white);
@@ -430,8 +390,7 @@
     align-items: center;
 }
 
-.v_infoTitle
-{
+.v_infoTitle {
     font-family: "Nunito Sans", sans-serif;
     font-weight: 700;
     font-size: 24px;
@@ -439,16 +398,14 @@
     text-align: center;
 }
 
-.v_infoMessage
-{
+.v_infoMessage {
     font-family: "poppins", sans-serif;
     font-size: 20px;
     width: 90%;
     text-align: center;
 }
 
-.v_infoButton
-{
+.v_infoButton {
     padding: 16px;
     min-width: 128px;
     max-width: 90%;
@@ -462,8 +419,7 @@
     cursor: pointer;
 }
 
-.v_logsign_instructions
-{
+.v_logsign_instructions {
     position: absolute;
     right: -180px;
     top: 0;
@@ -473,30 +429,26 @@
     text-indent: -4px;
     display: none;
     max-width: 160px;
-    border: 1px solid var(--black15) !important
+    border: 1px solid var(--black15) !important;
 }
 
-.v_instructions_list li
-{
+.v_instructions_list li {
     font-family: "Nunito Sans", sans-serif;
     font-size: 12px;
 }
 
-.v_404_image
-{
+.v_404_image {
     height: 50vh;
     aspect-ratio: initial;
 }
 
-.v_404_message
-{
+.v_404_message {
     font-size: 32px;
     font-family: "Nunito Sans", sans-serif;
     padding: 48px;
 }
 
-.v_404_back
-{
+.v_404_back {
     background-color: var(--main);
     font-size: 20px;
     font-family: "Nunito Sans", sans-serif;
@@ -507,8 +459,7 @@
     cursor: pointer;
 }
 
-.v_404_page
-{
+.v_404_page {
     display: flex;
     flex-direction: column;
     width: 90vw;
@@ -520,8 +471,7 @@
 
 /* Vicles app agency space */
 
-.v_vicles_header
-{
+.v_vicles_header {
     grid-area: 1 / 1 / 2 / 9;
     box-shadow: 72px -2px 8px 0;
     position: relative;
@@ -533,8 +483,7 @@
     grid-row-gap: 0px;
 }
 
-.v_vicles_logo
-{
+.v_vicles_logo {
     font-family: "righteous", cursive;
     font-size: 36px;
     color: var(--main);
@@ -551,27 +500,23 @@
     align-self: center;
 }
 
-.v_vicles_notifs
-{
+.v_vicles_notifs {
     grid-area: 1 / 11 / 2 / 12;
     background-color: transparent;
     border: none;
     cursor: pointer;
 }
 
-.v_vicles_notifs i
-{
+.v_vicles_notifs i {
     font-size: 24px;
     color: var(--darkGray);
 }
 
-.v_vicles_notifs:hover i
-{
+.v_vicles_notifs:hover i {
     color: var(--peach);
 }
 
-.v_vicles_agency_logo
-{
+.v_vicles_agency_logo {
     grid-area: 1 / 12 / 2 / 13;
     width: 48px;
     aspect-ratio: initial;
@@ -581,8 +526,7 @@
     border: 1px solid var(--black15);
 }
 
-.v_vicles_navbar
-{
+.v_vicles_navbar {
     grid-area: 2 / 1 / 9 / 2;
     border-right: 1px solid var(--gray);
     box-shadow: -2px 10px 8px 0;
@@ -595,29 +539,24 @@
     z-index: 10;
 }
 
-.v_vicles_activity_navigation i
-{
+.v_vicles_activity_navigation i {
     font-size: 24px;
     color: var(--darkGray);
 }
 
-.v_vicles_activity_navigation:hover i
-{
+.v_vicles_activity_navigation:hover i {
     color: var(--peach);
 }
 
-.v_active_tab
-{
+.v_active_tab {
     background-color: var(--main) !important;
 }
 
-.v_active_tab i
-{
+.v_active_tab i {
     color: var(--white) !important;
 }
 
-.v_vicles_activity_navigation
-{
+.v_vicles_activity_navigation {
     background-color: transparent;
     border: none;
     cursor: pointer;
@@ -656,15 +595,13 @@
     color: var(--fullRed) !important;
 }
 
-.v_vicles_activity_container
-{
+.v_vicles_activity_container {
     grid-area: 2 / 2 / 9 / 9;
     position: relative;
     background-color: var(--back);
 }
 
-.v_parking_controls
-{
+.v_parking_controls {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(7, 1fr) repeat(4, 102px) 1fr;
@@ -676,8 +613,7 @@
     position: relative;
 }
 
-.v_parking_controls_buttons
-{
+.v_parking_controls_buttons {
     grid-area: 1 / 8 / 2 / 12;
     display: flex;
     flex-direction: row;
@@ -685,8 +621,7 @@
     align-items: center;
 }
 
-.v_parking_search
-{
+.v_parking_search {
     grid-area: 1 / 2 / 2 / 6;
     background-color: var(--white);
     width: auto;
@@ -699,38 +634,32 @@
     grid-row-gap: 0px;
 }
 
-.v_parking_search .v_fieldIcon_L
-{
+.v_parking_search .v_fieldIcon_L {
     grid-area: 1 / 1 / 2 / 2;
     align-self: center;
     justify-self: center;
 }
 
-.v_parking_search .v_iconedfield
-{
+.v_parking_search .v_iconedfield {
     grid-area: 1 / 2 / 2 / 9;
     align-self: center;
 }
 
-.v_parking_regular_btn .v_iconedButton_icon
-{
+.v_parking_regular_btn .v_iconedButton_icon {
     background-color: transparent;
     border: none;
 }
 
-.v_parking_regular_btn .v_iconedButton_icon i
-{
+.v_parking_regular_btn .v_iconedButton_icon i {
     color: var(--black);
     font-size: 18px;
 }
 
-.v_parking_regular_btn:hover
-{
+.v_parking_regular_btn:hover {
     background-color: var(--white);
 }
 
-.v_parking_regular_btn
-{
+.v_parking_regular_btn {
     background-color: transparent;
     border: 1px solid var(--black);
     font-family: "poppins", sans-serif;
@@ -746,21 +675,17 @@
     cursor: pointer;
 }
 
-.v_parking_main_btn .v_iconedButton_icon
-{
+.v_parking_main_btn .v_iconedButton_icon {
     background-color: transparent;
     border: none;
 }
 
-.v_parking_main_btn .v_iconedButton_icon i
-{
+.v_parking_main_btn .v_iconedButton_icon i {
     font-size: 18px;
     color: var(--white);
 }
 
-
-.v_parking_main_btn
-{
+.v_parking_main_btn {
     background-color: var(--main);
     border: none;
     font-family: "poppins", sans-serif;
@@ -779,8 +704,7 @@
     color: var(--white);
 }
 
-.v_vicles_activity
-{
+.v_vicles_activity {
     width: 100%;
     height: 100%;
     overflow: scroll;
@@ -793,8 +717,7 @@
     overflow-y: scroll;
 }
 
-.v_vicles_app
-{
+.v_vicles_app {
     width: 100vw;
     height: 100vh;
     display: grid;
@@ -804,8 +727,7 @@
     grid-row-gap: 0;
 }
 
-.v_vicles_window_platform
-{
+.v_vicles_window_platform {
     position: fixed;
     top: 0;
     left: 0;
@@ -819,8 +741,7 @@
     overflow-y: scroll;
 }
 
-.v_vicles_window_background
-{
+.v_vicles_window_background {
     width: 100%;
     height: 100%;
     position: fixed;
@@ -830,14 +751,12 @@
     background-color: rgba(0, 0, 0, 0.6);
 }
 
-.v_vicles_window
-{
+.v_vicles_window {
     position: absolute;
     z-index: 103;
 }
 
-.v_vicles_window_titlebar
-{
+.v_vicles_window_titlebar {
     display: grid;
     grid-template-columns: 64px repeat(6, 1fr) 64px;
     grid-template-rows: 64px;
@@ -845,14 +764,12 @@
     grid-row-gap: 0px;
 }
 
-.v_vicles_window_icon i
-{
+.v_vicles_window_icon i {
     font-size: 26px;
     color: var(--black);
 }
 
-.v_vicles_window_icon
-{
+.v_vicles_window_icon {
     grid-area: 1 / 1 / 2 / 2;
     align-self: center;
     justify-self: center;
@@ -863,26 +780,22 @@
     border-radius: 8px;
 }
 
-.v_vicles_window_title
-{
+.v_vicles_window_title {
     grid-area: 1 / 2 / 2 / 8;
     font-size: 24px;
-    font-family: 'poppins', sans-serif;
+    font-family: "poppins", sans-serif;
     align-self: center;
 }
 
-.v_vicles_window_close i
-{
+.v_vicles_window_close i {
     font-size: 20px;
 }
 
-.v_vicles_window_close:hover i
-{
+.v_vicles_window_close:hover i {
     color: var(--fullRed);
 }
 
-.v_vicles_window_close
-{
+.v_vicles_window_close {
     grid-area: 1 / 8 / 2 / 9;
     align-self: center;
     justify-self: center;
@@ -891,16 +804,14 @@
     cursor: pointer;
 }
 
-.v_vicles_carInfo
-{
+.v_vicles_carInfo {
     width: 70vw;
     height: 80vh;
     background-color: var(--white);
     border-radius: 24px;
 }
 
-.vicles_car_delete_window
-{
+.vicles_car_delete_window {
     width: 480px;
     height: 174px;
     background-color: var(--white);
@@ -909,8 +820,7 @@
     flex-direction: column;
 }
 
-.vicles_car_deletion_actions_container
-{
+.vicles_car_deletion_actions_container {
     display: flex;
     flex-direction: row;
     justify-content: end;
@@ -918,9 +828,8 @@
     padding: 24px;
 }
 
-.vicles_car_approve_delettion
-{
-    font-family: 'poppins', sans-serif;
+.vicles_car_approve_delettion {
+    font-family: "poppins", sans-serif;
     font-size: 16px;
     color: var(--white);
     border: none;
@@ -930,9 +839,8 @@
     cursor: pointer;
 }
 
-.vicles_car_cancel_delettion
-{
-    font-family: 'poppins', sans-serif;
+.vicles_car_cancel_delettion {
+    font-family: "poppins", sans-serif;
     font-size: 16px;
     color: var(--white);
     border: none;
@@ -943,15 +851,14 @@
     cursor: pointer;
 }
 
-.vicles_car_delete_message
-{
-    font-family: 'Nunito Sans', sans-serif;
+.vicles_car_delete_message {
+    font-family: "Nunito Sans", sans-serif;
     font-size: 20px;
     text-indent: 8px;
     display: block;
 }
 
-.v_vicles_carInfo .v_vicles_window_zone{
+.v_vicles_carInfo .v_vicles_window_zone {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: 1fr;
@@ -960,8 +867,7 @@
     min-height: calc(100% - 94px);
 }
 
-.v_vicles_carInfo_left
-{
+.v_vicles_carInfo_left {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: repeat(9, 1fr);
@@ -969,8 +875,7 @@
     grid-row-gap: 20px;
 }
 
-.v_vicles_car_brand_model_container
-{
+.v_vicles_car_brand_model_container {
     width: 90%;
     display: flex;
     flex-direction: row;
@@ -979,18 +884,16 @@
     justify-self: center;
 }
 
-.v_vicles_fields
-{
+.v_vicles_fields {
     width: 45%;
     height: 48px;
-    font-family: 'poppins', sans-serif;
+    font-family: "poppins", sans-serif;
     font-size: 12px;
     background-color: var(--gray);
     border-radius: 16px;
 }
 
-.v_vicles_carInfo_inputs
-{
+.v_vicles_carInfo_inputs {
     display: grid;
     grid-template-columns: 48px repeat(4, 1fr) 48px;
     grid-template-rows: 1fr;
@@ -1002,18 +905,15 @@
     justify-self: center;
 }
 
-.v_vicles_car_brand_model_container .b_listItems .dropDownItem
-{
+.v_vicles_car_brand_model_container .b_listItems .dropDownItem {
     padding: 6px;
 }
 
-.v_vicles_car_brand_model_container .b_listItems .dropDownItem:hover
-{
+.v_vicles_car_brand_model_container .b_listItems .dropDownItem:hover {
     background-color: var(--black15);
 }
 
-.v_vicles_fields .b_selectedValue
-{
+.v_vicles_fields .b_selectedValue {
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     grid-template-rows: 48px;
@@ -1021,22 +921,20 @@
     grid-row-gap: 0px;
 }
 
-.b_selectedValue .b_currentItem { 
-    grid-area: 1 / 1 / 2 / 8; 
+.b_selectedValue .b_currentItem {
+    grid-area: 1 / 1 / 2 / 8;
     justify-self: start;
     align-self: center;
     margin-left: 8px;
 }
-.b_selectedValue .b_dropIcon { 
+.b_selectedValue .b_dropIcon {
     grid-area: 1 / 8 / 2 / 9;
     justify-self: center;
     align-self: center;
     cursor: pointer;
 }
 
-
-.v_vicles_car_brand_model_container .b_listItems
-{
+.v_vicles_car_brand_model_container .b_listItems {
     background-color: var(--gray);
     width: 100%;
     max-height: 256px;
@@ -1048,8 +946,7 @@
     border: 1px solid var(--black60);
 }
 
-.v_vicles_carInfo_right
-{
+.v_vicles_carInfo_right {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: repeat(6, 1fr);
@@ -1057,8 +954,7 @@
     grid-row-gap: 0px;
 }
 
-.v_vicles_car_drop_images
-{
+.v_vicles_car_drop_images {
     width: 80%;
     height: 256px;
     background-color: var(--gray);
@@ -1074,8 +970,7 @@
     overflow: hidden;
 }
 
-.v_vicles_car_scrollable_images
-{
+.v_vicles_car_scrollable_images {
     grid-area: 4 / 1 / 6 / 2;
     display: grid;
     grid-template-columns: repeat(8, 1fr);
@@ -1087,8 +982,7 @@
     overflow-x: scroll;
 }
 
-.v_vicles_car_small_images
-{
+.v_vicles_car_small_images {
     width: 200px;
     height: 200px;
     border-radius: 16px;
@@ -1100,8 +994,7 @@
     justify-content: center;
 }
 
-.v_vicles_car_small_miniature
-{
+.v_vicles_car_small_miniature {
     width: 196px;
     height: 196px;
     border-radius: 16px;
@@ -1124,16 +1017,16 @@
     justify-self: center;
 }
 
-.v_vicles_drop_file_input { display: none; }
+.v_vicles_drop_file_input {
+    display: none;
+}
 
-.v_vicles_drop_image_icon i
-{
+.v_vicles_drop_image_icon i {
     font-size: 24px;
     color: var(--main);
 }
 
-.v_vicles_drop_image_icon
-{
+.v_vicles_drop_image_icon {
     grid-area: 2 / 1 / 4 / 2;
     align-self: center;
     justify-self: center;
@@ -1143,18 +1036,16 @@
     padding: 16px;
 }
 
-.v_vicles_drop_image_text
-{   
+.v_vicles_drop_image_text {
     grid-area: 4 / 1 / 5 / 2;
-    font-family: 'poppins', sans-serif;
+    font-family: "poppins", sans-serif;
     font-size: 16px;
     align-self: center;
     justify-self: center;
     text-align: center;
 }
 
-.v_vicles_carInfo_buttons
-{
+.v_vicles_carInfo_buttons {
     grid-area: 6 / 1 / 7 / 2;
     display: grid;
     grid-template-columns: repeat(8, 1fr);
@@ -1165,10 +1056,9 @@
     justify-self: center;
 }
 
-.v_small_button_main
-{
+.v_small_button_main {
     grid-area: 1 / 8 / 2 / 9;
-    font-family: 'poppins', sans-serif;
+    font-family: "poppins", sans-serif;
     font-size: 18px;
     padding: 8px;
     align-self: center;
@@ -1181,10 +1071,9 @@
     width: 128px;
 }
 
-.v_small_button_black
-{
+.v_small_button_black {
     grid-area: 1 / 7 / 2 / 8;
-    font-family: 'poppins', sans-serif;
+    font-family: "poppins", sans-serif;
     font-size: 18px;
     padding: 8px;
     align-self: center;
@@ -1197,23 +1086,19 @@
     width: 128px;
 }
 
-.success_toast
-{
+.success_toast {
     background-color: var(--green);
 }
 
-.error_toast
-{
+.error_toast {
     background-color: var(--fullRed);
 }
 
-.warning_toast
-{
+.warning_toast {
     background-color: var(--yellow);
 }
 
-.vicles_toast
-{
+.vicles_toast {
     padding: 16px;
     border-radius: 16px;
     position: fixed;
@@ -1221,13 +1106,12 @@
     z-index: 100;
     align-self: center;
     text-align: center;
-    font-family: 'poppins', sans-serif;
+    font-family: "poppins", sans-serif;
     font-size: 16px;
     color: var(--white);
 }
 
-.carFactoryGrid
-{
+.carFactoryGrid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-auto-rows: minmax(100px, auto);
@@ -1236,14 +1120,12 @@
     width: 90vw;
 }
 
-.carFactoryFinal
-{
+.carFactoryFinal {
     display: flex;
     flex-direction: column;
 }
 
-.carFactoryInitial
-{
+.carFactoryInitial {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1251,8 +1133,7 @@
     height: calc(100% - 120px);
 }
 
-.pagination-controls
-{
+.pagination-controls {
     width: 90vw;
     align-self: center;
     display: flex;
@@ -1262,40 +1143,34 @@
     padding: 16px 0 16px 0;
 }
 
-.pagination_button
-{
+.pagination_button {
     background-color: transparent;
     border: none;
 }
 
-.pagination_button i
-{
+.pagination_button i {
     font-size: 26px;
     color: var(--lighterMain);
     cursor: pointer;
 }
 
-.page-info
-{
+.page-info {
     font-size: 16px;
     font-weight: 200;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 
-.pagination_button:hover i
-{
+.pagination_button:hover i {
     color: var(--main);
 }
 
-.empty_message
-{
-    font-family: 'Poppins';
+.empty_message {
+    font-family: "Poppins";
     font-size: 24px;
     color: var(--darkGray);
 }
 
-.vicles_car
-{
+.vicles_car {
     width: 256px;
     height: 256px;
     background-color: var(--white);
@@ -1310,8 +1185,7 @@
     box-shadow: 4px 4px 4px -2px rgba(0, 0, 0, 0.75);
 }
 
-.vicles_car_toolBar
-{
+.vicles_car_toolBar {
     width: 90%;
     align-self: center;
     padding: 8px 0 8px 0;
@@ -1321,24 +1195,20 @@
     grid-row-gap: 0px;
 }
 
-.vicles_car_delete
-{
+.vicles_car_delete {
     grid-area: 1 / 1 / 2 / 2;
 }
 
-.vicles_car_delete:hover i
-{
+.vicles_car_delete:hover i {
     color: var(--fullRed);
-    border: .5px solid var(--fullRed);
+    border: 0.5px solid var(--fullRed);
 }
 
-.vicles_car_modify
-{
+.vicles_car_modify {
     grid-area: 1 / 2 / 2 / 3;
 }
 
-.vicles_car_brand_model_container
-{
+.vicles_car_brand_model_container {
     width: 90%;
     height: 32px;
     display: flex;
@@ -1346,9 +1216,8 @@
     align-self: center;
 }
 
-.vicles_car_brand
-{
-    font-family: 'Nunito', sans-serif;
+.vicles_car_brand {
+    font-family: "Nunito", sans-serif;
     font-size: 16px;
     font-weight: bold;
     color: var(--black);
@@ -1356,16 +1225,14 @@
     align-self: center;
 }
 
-.vicles_car_model
-{
-    font-family: 'Poppins', sans-serif;
+.vicles_car_model {
+    font-family: "Poppins", sans-serif;
     font-size: 14px;
     color: var(--black);
     align-self: center;
 }
 
-.vicles_car_plate
-{
+.vicles_car_plate {
     font-family: "Poppins", sans-serif;
     font-size: 14px;
     height: 24px;
@@ -1383,37 +1250,32 @@
     border: 1px solid var(--black);
 }
 
-.vicles_car_modify:hover i
-{
+.vicles_car_modify:hover i {
     color: var(--green);
-    border: .5px solid var(--green);
+    border: 0.5px solid var(--green);
 }
 
-.vicles_car_button
-{
+.vicles_car_button {
     background-color: transparent;
     border: none;
 }
 
-.vicles_car_button i
-{
+.vicles_car_button i {
     font-size: 14px;
     border-radius: 100%;
-    border: .5px solid var(--black);
+    border: 0.5px solid var(--black);
     padding: 4px;
     cursor: pointer;
 }
 
-.vicles_car_image
-{
+.vicles_car_image {
     width: 256px;
     height: 160px;
     object-fit: cover;
     aspect-ratio: initial;
 }
 
-.waitScreen
-{
+.waitScreen {
     grid-area: 1 / 1 / 2 / 3;
     height: 100%;
     display: flex;
@@ -1422,16 +1284,61 @@
     justify-content: center;
 }
 
+.vicles_notifications {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 100;
+}
+
+.vicles_notification_center_backgound {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 100;
+}
+
+.vicles_notification_center {
+    width: 300px;
+    height: 100vh;
+    position: absolute;
+    z-index: 101;
+    background-color: var(--white);
+    right: 0;
+    top: 0;
+    box-shadow: -2px 10px 8px 0 rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+}
+
+.vicles_notification_center_title {
+    font-family: "Poppins", sans-serif;
+    font-size: 20px;
+}
+
 .waitScreen_content {
     width: 50px;
     aspect-ratio: 1;
     border-radius: 50%;
-    background: 
-      radial-gradient(farthest-side,var(--main) 94%,#0000) top/8px 8px no-repeat,
-      conic-gradient(#0000 30%,var(--main));
-    -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 8px),#000 0);
+    background:
+        radial-gradient(farthest-side, var(--main) 94%, #0000) top/8px 8px
+            no-repeat,
+        conic-gradient(#0000 30%, var(--main));
+    -webkit-mask: radial-gradient(
+        farthest-side,
+        #0000 calc(100% - 8px),
+        #000 0
+    );
     animation: l13 1s infinite linear;
-  }
-  @keyframes l13{ 
-    100%{transform: rotate(1turn)}
-  }
+}
+@keyframes l13 {
+    100% {
+        transform: rotate(1turn);
+    }
+}
