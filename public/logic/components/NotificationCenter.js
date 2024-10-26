@@ -39,27 +39,17 @@ export default class NotificationCenter extends builder.Component {
     backgound_block.onclick = () => {
       this.component.parentNode.removeChild(this.component);
     };
-    
-    const socket = io('http://localhost:3001', {
+
+    const socket = io("http://localhost:3001", {
       withCredentials: true, // Enable credentials if needed
-      transports: ['websocket'], // Use WebSocket only to avoid HTTP polling
+      transports: ["websocket"], // Use WebSocket only to avoid HTTP polling
     });
-    
-    socket.on('connect', () => {
-      console.log('Connected to server:', socket.id);
-    
-      // Send a custom event to the server
-      socket.emit('custom_event', { msg: 'Hello from client!' });
-    
-      // Listen for a response from the server
-      socket.on('response_event', (data) => {
-        console.log('Response from server:', data);
-      });
+
+    socket.on("connect", () => {
+      const user = JSON.parse(builder.prefs.get("user"))
+      socket.emit("establish", {user_id: user.id})
     });
-    
-    // Handle disconnection
-    socket.on('disconnect', () => {
-      console.log('Disconnected from server');
-    });
+
+    socket.on("disconnect", () => {});
   }
 }
