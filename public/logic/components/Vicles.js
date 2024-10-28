@@ -9,12 +9,13 @@ import NotificationCenter from "./NotificationCenter.js";
 export default class Vicles extends builder.Component {
   #parent;
   active_tab;
+  notifications;
   constructor(parent) {
     super();
     this.#parent = parent;
     this.path = "/";
     this.active_tab = null;
-    this.notifications = new NotificationCenter()
+    this.notifications = undefined
     this.create();
   }
 
@@ -153,6 +154,7 @@ export default class Vicles extends builder.Component {
         null,
         '<i class="ri-notification-3-line"></i>',
       ),
+      notif_alert = builder.block(null, 'vicles_notifications_alert_hidden',[]),
       agency_logo = builder.image(null, "v_vicles_agency_logo", ""),
       header = builder.block(null, "v_vicles_header", [
         logo,
@@ -166,6 +168,8 @@ export default class Vicles extends builder.Component {
     if (builder.prefs.get("user").logo)
       agency_logo.src = builder.prefs.get("user").logo;
     else agency_logo.src = "/assets/tmp_logo.webp";
+    notifs.append(notif_alert)
+    this.notifications = new NotificationCenter(notif_alert);
     this.component = builder.block(null, "v_vicles_app", [
       header,
       navbar,
