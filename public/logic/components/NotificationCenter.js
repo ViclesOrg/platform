@@ -1,5 +1,7 @@
 import * as builder from "../vendors/builder.js";
 import { io } from "socket.io-client";
+import IconedButton from "./IconedButton.js";
+import _window from "./Window.js";
 
 function calculateDaysBetween(startDate, endDate) {
   const start = startDate;
@@ -25,32 +27,162 @@ export default class NotificationCenter extends builder.Component {
       NotificationCenter.instance = this;
     } else return NotificationCenter.instance;
   }
-  
-  #iconedLabel(id, icon, text)
-  {
-    const iconBtn = builder.button(null, "vicles_iconed_label_icon", null, icon),
-          labelText = builder.label("vicles_iconed_label_label", text)
-    return builder.block(id, "styleClass", [iconBtn, labelText])
+
+  #iconedLabel(id, icon, text) {
+    const iconBtn = builder.button(
+        null,
+        "vicles_iconed_label_icon",
+        null,
+        icon,
+      ),
+      labelText = builder.label("vicles_iconed_label_label", text);
+    return builder.block(id, "styleClass", [iconBtn, labelText]);
   }
-  
+
   #createNotifCard(notif) {
     const start = new Date(notif.start_date),
       end = new Date(notif.end_date);
-    let renterName = this.#iconedLabel('renterName' ,'<i class="ri-id-card-line"></i>', notif.renter),
-      carFullModel = this.#iconedLabel('carFullModel' ,'<i class="ri-roadster-line"></i>', notif.brand + " " + notif.model),
-      plate = builder.label('vicles_car_plate', notif.plate),
-      startDate = this.#iconedLabel('startDate' ,'<i class="ri-flag-line"></i>', start.toLocaleDateString("fr-MA")),
-      endDate = this.#iconedLabel('endDate' ,'<i class="ri-flag-off-line"></i>', end.toLocaleDateString("fr-MA")),
-      total = this.#iconedLabel('total' ,'<i class="ri-equal-line"></i>', calculateDaysBetween(start, end) + " Jours"),
-      triGrid = builder.block(null, 'vicles_notification_car_dates', [startDate, endDate, total]);
+    let renterName = this.#iconedLabel(
+        "renterName",
+        '<i class="ri-id-card-line"></i>',
+        notif.renter,
+      ),
+      carFullModel = this.#iconedLabel(
+        "carFullModel",
+        '<i class="ri-roadster-line"></i>',
+        notif.brand + " " + notif.model,
+      ),
+      renterPhone = this.#iconedLabel(
+        "renterPhone",
+        '<i class="ri-phone-line"></i>',
+        notif.phone,
+      ),
+      plate = builder.label(
+        "vicles_car_plate",
+        notif.plate.replaceAll("-", " | "),
+      ),
+      startDate = this.#iconedLabel(
+        "startDate",
+        '<i class="ri-flag-line"></i>',
+        start.toLocaleDateString("fr-MA"),
+      ),
+      endDate = this.#iconedLabel(
+        "endDate",
+        '<i class="ri-flag-off-line"></i>',
+        end.toLocaleDateString("fr-MA"),
+      ),
+      total = this.#iconedLabel(
+        "total",
+        '<i class="ri-equal-line"></i>',
+        calculateDaysBetween(start, end) + " Jours",
+      ),
+      triGrid = builder.block(null, "vicles_notification_card_dates", [
+        startDate,
+        endDate,
+        total,
+      ]),
+      // Accept buttin
+      accept = new IconedButton(
+        null,
+        "vicles_notification_card_accept",
+        '<i class="ri-check-line"></i>',
+        "Accpeter",
+        () => {
+          const win = new _window(
+              '<i class="ri-calendar-close-line"></i>',
+              "Confirmer la reservation",
+              "vicles_car_delete_window",
+              "modal",
+            ),
+            message = builder.label(
+              "vicles_car_delete_message",
+              "Voulez vous confirmer la location?",
+            ),
+            cancel = builder.button(
+              null,
+              "vicles_car_approve_delettion",
+              "Annuler",
+            ),
+            approve = builder.button(
+              null,
+              "vicles_car_cancel_delettion",
+              "Confirmer",
+            ),
+            actions = builder.block(
+              null,
+              "vicles_car_deletion_actions_container",
+              [cancel, approve],
+            );
+
+          cancel.onclick = () => {
+            win.getHTML().parentNode.removeChild(win.getHTML());
+          };
+
+          approve.onclick = () => {};
+
+          win.appZone.append(message, actions);
+          builder.app.append(win.getHTML());
+        },
+      ),
+      // Cancel button
+      cancel = new IconedButton(
+        null,
+        "vicles_notification_card_cancel",
+        '<i class="ri-close-line"></i>',
+        "Annuler",
+        () => {
+          const win = new _window(
+              '<i class="ri-calendar-close-line"></i>',
+              "Annuler la reservation",
+              "vicles_car_delete_window",
+              "modal",
+            ),
+            message = builder.label(
+              "vicles_car_delete_message",
+              "L'annulation d'une location est irreversible",
+            ),
+            approve = builder.button(
+              null,
+              "vicles_car_approve_delettion",
+              "Supprimer",
+            ),
+            cancel = builder.button(
+              null,
+              "vicles_car_cancel_delettion",
+              "Annuler",
+            ),
+            actions = builder.block(
+              null,
+              "vicles_car_deletion_actions_container",
+              [cancel, approve],
+            );
+
+          cancel.onclick = () => {
+            win.getHTML().parentNode.removeChild(win.getHTML());
+          };
+
+          approve.onclick = () => {};
+
+          win.appZone.append(message, actions);
+          builder.app.append(win.getHTML());
+        },
+      ),
+      controls_panel = builder.block(
+        null,
+        "vicles_notification_card_controls",
+        [accept.getHTML(), cancel.getHTML()],
+      );
 
     return builder.block(null, "vicles_notification_card", [
       renterName,
+      renterPhone,
       carFullModel,
+      triGrid,
       plate,
-      triGrid
+      controls_panel,
     ]);
   }
+
   create() {
     let title = builder.label(
         "vicles_notification_center_title",
