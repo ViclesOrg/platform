@@ -2,6 +2,7 @@ import * as builder from "../vendors/builder.js";
 import { io } from "socket.io-client";
 import IconedButton from "./IconedButton.js";
 import _window from "./Window.js";
+import floatingMessage from "./floatingMessage.js";
 
 function calculateDaysBetween(startDate, endDate) {
   const start = startDate;
@@ -19,11 +20,13 @@ function calculateDaysBetween(startDate, endDate) {
 export default class NotificationCenter extends builder.Component {
   static instance = null;
   notification_alert;
+  socket;
   constructor(alert_notif) {
     if (NotificationCenter.instance === null) {
       super();
-      this.create();
       this.notification_alert = alert_notif;
+      this.socket = undefined;
+      this.create();
       NotificationCenter.instance = this;
     } else return NotificationCenter.instance;
   }
@@ -89,14 +92,14 @@ export default class NotificationCenter extends builder.Component {
         "Accpeter",
         () => {
           const win = new _window(
-              '<i class="ri-calendar-close-line"></i>',
+              '<i class="ri-calendar-check-line"></i>',
               "Confirmer la reservation",
               "vicles_car_delete_window",
               "modal",
             ),
             message = builder.label(
               "vicles_car_delete_message",
-              "Voulez vous confirmer la location?",
+              "Confirmez la reservation par appel avec le client.",
             ),
             cancel = builder.button(
               null,
@@ -111,14 +114,44 @@ export default class NotificationCenter extends builder.Component {
             actions = builder.block(
               null,
               "vicles_car_deletion_actions_container",
-              [cancel, approve],
+              [approve, cancel],
             );
 
           cancel.onclick = () => {
             win.getHTML().parentNode.removeChild(win.getHTML());
           };
 
-          approve.onclick = () => {};
+          approve.onclick = () => {
+            const fd = new FormData();
+            //notification_id
+            // rental_id
+            fd.append("rental", notif.rental_id);
+            fd.append("notification", notif.notification_id);
+
+            builder.brdige(
+              "/renters/acceptBooking",
+              "POST",
+              fd,
+              (data) => {
+                const res = JSON.parse(data);
+                if (res.code === 0) {
+                  win.getHTML().parentNode.removeChild(win.getHTML());
+                } else {
+                  const fm_oops = new floatingMessage(
+                    "/assets/oops.webp",
+                    "Erreur",
+                    "Une erreur inconnue est survenue",
+                    "OK!",
+                    (p) => {
+                      p.parentNode.removeChild(p);
+                    },
+                  );
+                  builder.app.append(fm_oops.getHTML());
+                }
+              },
+              () => {},
+            );
+          };
 
           win.appZone.append(message, actions);
           builder.app.append(win.getHTML());
@@ -161,7 +194,37 @@ export default class NotificationCenter extends builder.Component {
             win.getHTML().parentNode.removeChild(win.getHTML());
           };
 
-          approve.onclick = () => {};
+          approve.onclick = () => {
+            const fd = new FormData();
+            //notification_id
+            // rental_id
+            fd.append("rental", notif.rental_id);
+            fd.append("notification", notif.notification_id);
+
+            builder.brdige(
+              "/renters/cancelBooking",
+              "POST",
+              fd,
+              (data) => {
+                const res = JSON.parse(data);
+                if (res.code === 0) {
+                  win.getHTML().parentNode.removeChild(win.getHTML());
+                } else {
+                  const fm_oops = new floatingMessage(
+                    "/assets/oops.webp",
+                    "Erreur",
+                    "Une erreur inconnue est survenue",
+                    "OK!",
+                    (p) => {
+                      p.parentNode.removeChild(p);
+                    },
+                  );
+                  builder.app.append(fm_oops.getHTML());
+                }
+              },
+              () => {},
+            );
+          };
 
           win.appZone.append(message, actions);
           builder.app.append(win.getHTML());
@@ -216,7 +279,7 @@ export default class NotificationCenter extends builder.Component {
       withCredentials: true, // Enable credentials if needed
       transports: ["websocket"], // Use WebSocket only to avoid HTTP polling
     });
-
+    this.socket = socket;
     socket.on("connect", () => {
       const user = JSON.parse(builder.prefs.get("user"));
       socket.emit("establish", { user_id: user.id });
@@ -225,10 +288,20 @@ export default class NotificationCenter extends builder.Component {
     socket.on("disconnect", () => {});
 
     socket.on("notifs", (data) => {
+      this.#notifHandler(data, notifications_container);
+    });
+  }
+
+  #notifHandler(data, notifications_container) {
+    if (!data.notifications.hasOwnProperty("status")) {
       this.notification_alert.className = "vicles_notifications_alert_visible";
+      notifications_container.innerHTML = "";
       for (const notif of data.notifications) {
         notifications_container.append(this.#createNotifCard(notif));
       }
-    });
+    } else {
+      this.notification_alert.className = "vicles_notifications_alert_hidden";
+      notifications_container.textContent = "Aucune nouvelle ici";
+    }
   }
 }
