@@ -1487,6 +1487,26 @@
     flex-direction: row;
     align-items: center;
 }
+
+.vicles_soon_page
+{
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+    align-items: center;
+    justify-content: center;
+}
+
+.vicles_soon_heading
+{
+    font-family: "nunito", sans-serif;
+}
+
+.vicles_soon_image
+{
+    width: 60vw;
+}
+
 .waitScreen_content {
     width: 50px;
     aspect-ratio: 1;

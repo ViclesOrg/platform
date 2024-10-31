@@ -1,4 +1,5 @@
 import * as builder from '../vendors/builder.js';
+import Soon from './Soon.js';
 
 export default class History extends builder.Component
 {
@@ -10,8 +11,6 @@ export default class History extends builder.Component
     }
 
     create() {
-        let initial = builder.heading(1, '', 'History');
-
-        this.component = builder.block(null, 'v_vicles_activity', [initial])
+        this.component = builder.block(null, 'v_vicles_activity', [new Soon("Historique").getHTML()])
     }
 }
